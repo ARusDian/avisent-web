@@ -1,6 +1,8 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 const Tableturret = () => {
+  const navigate = useNavigate();
   const turrets = [
     {
       user: "123",
@@ -120,37 +122,50 @@ const Tableturret = () => {
           </tbody>
         </table>
 
-        {/* Pagination Controls */}
+        {/* Kontrol Paginasi */}
         <div className="flex justify-center space-x-2 my-20">
           <button
             disabled={currentPage <= 1}
-            onClick={() => setCurrentPage(currentPage - 1)}
-            className="p-2 border rounded shadow text-gray-600 hover:bg-gray-200"
+            onClick={() => {
+              setCurrentPage(currentPage - 1);
+              navigate(""); // Mengarahkan saat tombol "Prev" diklik
+            }}
           >
             {"< Prev"}
           </button>
+
           {Array.from({ length: pageCount }, (_, index) => (
             <button
               key={index}
               className={`p-2 border rounded shadow ${
                 currentPage === index + 1 ? "bg-gray-300" : "hover:bg-gray-200"
               }`}
-              onClick={() => setCurrentPage(index + 1)}
+              onClick={() => {
+                setCurrentPage(index + 1);
+                navigate(""); // Mengarahkan saat nomor halaman diklik
+              }}
             >
               {index + 1}
             </button>
           ))}
+
           <button
             disabled={currentPage >= pageCount}
-            onClick={() => setCurrentPage(currentPage + 1)}
-            className="p-2 border rounded shadow text-gray-600 hover:bg-gray-200"
+            onClick={() => {
+              setCurrentPage(currentPage + 1);
+              navigate(""); // Mengarahkan saat tombol "Next" diklik
+            }}
           >
             {"Next >"}
           </button>
         </div>
 
-        <div className="absolute bottom-16 right-48 font-roboto shadow-lg">
-          <button className="bg-[#697077] text-white shadow hover:bg-[#f8dbb3] px-12 py-2 rounded-xl">
+        {/* Tombol "Add" */}
+        <div className="absolute bottom-16 right-48">
+          <button
+            onClick={() => navigate("/formturret")}
+            className="bg-[#697077] text-white shadow hover:bg-[#f8dbb3] px-12 py-2 rounded-xl"
+          >
             Add
           </button>
         </div>

@@ -5,6 +5,7 @@ import Log from "./Pages/Log";
 import Addturret from "./Pages/Addturret";
 import Addaccount from "./Pages/Addaccount";
 import Index from "./Pages/Index";
+import Formturret from "./Pages/Formturret";
 
 const App = () => {
   return (
@@ -16,6 +17,7 @@ const App = () => {
         <Route path="/log" element={<Log />} />
         <Route path="/addturret" element={<Addturret />} />
         <Route path="/addaccount" element={<Addaccount />} />
+        <Route path="/formturret" element={<Formturret />} />
 
         {/* <Route index element={<Home />} />
           <Route path="blogs" element={<Blogs />} />

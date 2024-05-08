@@ -24,7 +24,14 @@ const Navbar = () => {
         >
           Home
         </NavLink>
-        <a href="#">Spesification</a>
+        <NavLink
+          className={({ isActive }) =>
+            isActive ? "font-bold text-[#f8dbb3]" : undefined
+          }
+          to={"/home"}
+        >
+          Spesification
+        </NavLink>
         <NavLink
           className={({ isActive }) =>
             isActive ? "font-bold text-[#f8dbb3]" : undefined

@@ -17,7 +17,6 @@ return new class extends Migration
             $table->tinyInteger('turret_id');
             $table->timestamp('start_date')->nullable();
             $table->timestamp('end_date')->nullable();
-            $table->timestamps();
         });
     }
 

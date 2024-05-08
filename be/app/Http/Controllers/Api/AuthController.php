@@ -3,21 +3,38 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Validator;
 
 class AuthController extends Controller
 {
     public function login(Request $request)
     {
-        if(Auth::attempt(['name' => $request->name, 'password' => $request->password])){
-            $token = auth()->user()->createToken('client-token')->plainTextToken;
-            $access = auth()->user()->type;
+        $validator = Validator::make($request->all(), [
+            'name'     => 'required',
+            'password'  => 'required'
+          ]);
 
-            return ['token' => $token, 'access' => $access];
+        if ($validator->fails()) {
+        return response()->json($validator->errors());
         }
-        else{
-            return response(['message' => 'Wrong Credentials'], 422);
+
+        $credentials = $request->only('name', 'password');
+
+        if (! Auth::attempt($credentials)) {
+            return response()->json([
+                'message' => 'Wrong Credentials'
+            ], 401);
+        } else {
+            $user   = User::where('name', $request->name)->firstOrFail();
+            $token  = $user->createToken('auth_token')->plainTextToken;
+
+            return response()->json([
+                'message' => 'Login success',
+                'token' => $token,
+            ]);
         }
     }
 
@@ -26,6 +43,6 @@ class AuthController extends Controller
         $user = $request->user();
         $user->currentAccessToken()->delete();
 
-        return response(['message' => 'berhasil logout'], 422);
+        return response(['message' => 'Berhasil Logout'], 200);
     }
 }

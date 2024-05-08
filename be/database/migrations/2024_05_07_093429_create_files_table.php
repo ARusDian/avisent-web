@@ -15,7 +15,6 @@ return new class extends Migration
             $table->id('id_file');
             $table->string('path');
             $table->string('type');
-            $table->timestamps();
         });
     }
 

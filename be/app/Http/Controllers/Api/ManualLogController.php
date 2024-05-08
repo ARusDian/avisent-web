@@ -12,8 +12,8 @@ class ManualLogController extends Controller
 
     public function index()
     {
-        $mlog = ManualLog::latest()->paginate(5);
+        $mlog = ManualLog::orderBy('id_manual_log')->get();
 
-        return new ManualLogResource(true, 'List Manual Log', $mlog);
+        return new ManualLogResource(true, 'List manual Log', $mlog);
     }
 }

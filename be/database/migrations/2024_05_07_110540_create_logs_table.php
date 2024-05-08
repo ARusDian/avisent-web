@@ -18,7 +18,6 @@ return new class extends Migration
             $table->string('location');
             $table->string('object_type');
             $table->timestamp('shot_date');
-            $table->timestamps();
         });
     }
 

@@ -10,7 +10,6 @@ class Log extends Model
     use HasFactory;
 
     protected $primaryKey = 'id_log';
-
     protected $fillable= [
         'turret_id',
         'image_id',
@@ -18,6 +17,8 @@ class Log extends Model
         'object_type',
         'shot_date',
     ];
+
+    public $timestamps = false;
 
     public function file(): HasOne
     {

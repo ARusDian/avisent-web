@@ -11,7 +11,7 @@ class LogController extends Controller
 {
     public function index()
     {
-        $log = Log::latest()->paginate(5);
+        $log = Log::orderBy('id_log')->get();
 
         return new LogResource(true, 'List Log', $log);
     }

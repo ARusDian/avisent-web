@@ -11,11 +11,12 @@ class File extends Model
     use HasFactory;
 
     protected $primaryKey = 'id_file';
-
     protected $fillable= [
         'path',
         'type',
     ];
+
+    public $timestamps = false;
 
     public function turret(): BelongsTo
     {

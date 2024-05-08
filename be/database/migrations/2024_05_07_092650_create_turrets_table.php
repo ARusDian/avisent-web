@@ -17,7 +17,6 @@ return new class extends Migration
             $table->text('description');
             $table->string('secret_key');
             $table->text('location');
-            $table->timestamps();
         });
     }
 

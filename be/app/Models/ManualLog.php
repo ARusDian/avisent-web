@@ -11,13 +11,14 @@ class ManualLog extends Model
     use HasFactory;
 
     protected $primaryKey = 'id_manual_log';
-
     protected $fillable= [
         'user_id',
         'turret_id',
         'start_date',
         'end_date',
     ];
+
+    public $timestamps = false;
 
     public function turret(): BelongsTo
     {

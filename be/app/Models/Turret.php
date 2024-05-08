@@ -12,13 +12,14 @@ class Turret extends Model
     use HasFactory;
 
     protected $primaryKey = 'id_turret';
-
     protected $fillable= [
         'image_id',
         'description',
         'secret_key',
         'location',
     ];
+
+    public $timestamps = false;
 
     public function file(): HasOne
     {

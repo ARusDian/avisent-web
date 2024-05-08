@@ -1,0 +1,577 @@
+{
+	"info": {
+		"_postman_id": "3cb1f7fd-cd89-45b7-88b3-cf1e675250ba",
+		"name": "Avisent-operator",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "6283507"
+	},
+	"item": [
+		{
+			"name": "Login Operator",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Response contains token\", function () {\r",
+							"    pm.expect(pm.response.json()).to.have.property(\"token\");\r",
+							"});\r",
+							"\r",
+							"var jsonData = pm.response.json();\r",
+							"var token = jsonData.token;\r",
+							"pm.environment.set(\"operatorToken\", token);"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"const formData = {\r",
+							"    name: \"operator\",\r",
+							"    password: \"12121212\"\r",
+							"};\r",
+							"\r",
+							"const formDataString = Object.keys(formData).map(key => {\r",
+							"    return `${encodeURIComponent(key)}=${encodeURIComponent(formData[key])}`;\r",
+							"}).join('&');\r",
+							"\r",
+							"pm.request.body = {\r",
+							"    mode: 'urlencoded',\r",
+							"    urlencoded: formDataString\r",
+							"};"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "localhost:8000/api/login",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Turrets - Get all turrets (operator)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Response status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Content-Type header is application/json\", function () {\r",
+							"    pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(\"application/json\");\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Response has the required fields - success, message, and data\", function () {\r",
+							"    const responseData = pm.response.json();\r",
+							"    \r",
+							"    pm.expect(responseData).to.be.an('object');\r",
+							"    pm.expect(responseData).to.have.property('success');\r",
+							"    pm.expect(responseData).to.have.property('message');\r",
+							"    pm.expect(responseData).to.have.property('data');\r",
+							"});\r",
+							"\r",
+							"\r",
+							"pm.test(\"Validate the data array - each object should have id_turret, image_id, description, secret_key and location properties\", function () {\r",
+							"    const responseData = pm.response.json();\r",
+							"\r",
+							"    pm.expect(responseData).to.be.an('object');\r",
+							"    pm.expect(responseData.data).to.be.an('array');\r",
+							"\r",
+							"    responseData.data.forEach(function(turret) {\r",
+							"        pm.expect(turret).to.have.property('id_turret');\r",
+							"        pm.expect(turret).to.have.property('image_id');\r",
+							"        pm.expect(turret).to.have.property('description');\r",
+							"        pm.expect(turret).to.have.property('secret_key');\r",
+							"        pm.expect(turret).to.have.property('location');\r",
+							"    });\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"const bearerToken = pm.environment.get(\"operatorToken\");\r",
+							"\r",
+							"pm.request.headers.add({\r",
+							"    key: \"Authorization\",\r",
+							"    value: `Bearer ${bearerToken}`\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8000/api/turrets",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"turrets"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Turrets - Create new turrets (operator)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Response status code is 201\", function () {\r",
+							"  pm.response.to.have.status(201);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Content-Type header is application/json\", function () {\r",
+							"    pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(\"application/json\");\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Response has the required fields - success, message, and data\", function () {\r",
+							"    const responseData = pm.response.json();\r",
+							"    \r",
+							"    pm.expect(responseData).to.be.an('object');\r",
+							"    pm.expect(responseData).to.have.property('success');\r",
+							"    pm.expect(responseData).to.have.property('message');\r",
+							"    pm.expect(responseData).to.have.property('data');\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Validate the data array - each object should have id_turret, image_id, description, secret_key and location properties\", function () {\r",
+							"    const responseData = pm.response.json();\r",
+							"\r",
+							"    pm.expect(responseData).to.be.an('object');\r",
+							"    pm.expect(responseData.data).to.have.property('id_turret');\r",
+							"    pm.expect(responseData.data).to.have.property('image_id');\r",
+							"    pm.expect(responseData.data).to.have.property('description');\r",
+							"    pm.expect(responseData.data).to.have.property('secret_key');\r",
+							"    pm.expect(responseData.data).to.have.property('location');\r",
+							"});\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"const bearerToken = pm.environment.get(\"operatorToken\");\r",
+							"\r",
+							"pm.request.headers.add({\r",
+							"    key: \"Authorization\",\r",
+							"    value: `Bearer ${bearerToken}`\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "XFivOgincZWyn59KtC766h5pD5TNfR1db6VnOrTB24ccb9d2",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "path",
+							"type": "file",
+							"src": "/C:/codes/laravel-projects/avisent-web/be/img-dummy/turret.jpg"
+						},
+						{
+							"key": "description",
+							"value": "Turret yang ada di sawah api-turret-testing-1",
+							"type": "text"
+						},
+						{
+							"key": "secret_key",
+							"value": "api-turret-testing-1-key",
+							"type": "text"
+						},
+						{
+							"key": "location",
+							"value": "Sawah api-turret-testing-1",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "localhost:8000/api/turrets",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"turrets"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Turrets - Update turret (operator)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Response status code is 200\", function () {\r",
+							"  pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Content-Type header is application/json\", function () {\r",
+							"    pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(\"application/json\");\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Response has the required fields - success, message, and data\", function () {\r",
+							"    const responseData = pm.response.json();\r",
+							"    \r",
+							"    pm.expect(responseData).to.be.an('object');\r",
+							"    pm.expect(responseData).to.have.property('success');\r",
+							"    pm.expect(responseData).to.have.property('message');\r",
+							"    pm.expect(responseData).to.have.property('data');\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Validate the data array - each object should have id_turret, image_id, description, secret_key and location properties\", function () {\r",
+							"    const responseData = pm.response.json();\r",
+							"\r",
+							"    pm.expect(responseData).to.be.an('object');\r",
+							"    pm.expect(responseData.data).to.have.property('id_turret');\r",
+							"    pm.expect(responseData.data).to.have.property('image_id');\r",
+							"    pm.expect(responseData.data).to.have.property('description');\r",
+							"    pm.expect(responseData.data).to.have.property('secret_key');\r",
+							"    pm.expect(responseData.data).to.have.property('location');\r",
+							"\r",
+							"    if (responseData.data.file) {\r",
+							"        pm.expect(responseData.data.file).to.have.property('id_file');\r",
+							"        pm.expect(responseData.data.file).to.have.property('path');\r",
+							"        pm.expect(responseData.data.file).to.have.property('type');\r",
+							"    }\r",
+							"});\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"const bearerToken = pm.environment.get(\"operatorToken\");\r",
+							"\r",
+							"pm.request.headers.add({\r",
+							"    key: \"Authorization\",\r",
+							"    value: `Bearer ${bearerToken}`\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "XFivOgincZWyn59KtC766h5pD5TNfR1db6VnOrTB24ccb9d2",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "_method",
+							"value": "PATCH",
+							"type": "text"
+						},
+						{
+							"key": "path",
+							"type": "file",
+							"src": "/C:/codes/laravel-projects/avisent-web/be/img-dummy/turret2.jpeg"
+						},
+						{
+							"key": "description",
+							"value": "Turret yang ada di api-turret-testing-2",
+							"type": "text"
+						},
+						{
+							"key": "secret_key",
+							"value": "api-turret-testing-2-key",
+							"type": "text"
+						},
+						{
+							"key": "location",
+							"value": "Sawah api-turret-testing-2",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "localhost:8000/api/turrets/4",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"turrets",
+						"4"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Turrets - Delete turret (operator)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.expect(pm.response.code).to.equal(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Response body schema for successful delete operation\", function () {\r",
+							"    const responseData = pm.response.json();\r",
+							"    \r",
+							"    pm.expect(responseData).to.be.an('object');\r",
+							"    pm.expect(responseData).to.have.property('success', true);\r",
+							"    pm.expect(responseData).to.have.property('message', 'Data turret berhasil di hapus.');\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"const bearerToken = pm.environment.get(\"operatorToken\");\r",
+							"\r",
+							"pm.request.headers.add({\r",
+							"    key: \"Authorization\",\r",
+							"    value: `Bearer ${bearerToken}`\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "localhost:8000/api/turrets/4",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"turrets",
+						"4"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Log - Get all logs  (operator)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Response status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Content-Type header is application/json\", function () {\r",
+							"    pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(\"application/json\");\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Response has the required fields - success, message, and data\", function () {\r",
+							"    const responseData = pm.response.json();\r",
+							"    \r",
+							"    pm.expect(responseData).to.be.an('object');\r",
+							"    pm.expect(responseData).to.have.property('success');\r",
+							"    pm.expect(responseData).to.have.property('message');\r",
+							"    pm.expect(responseData).to.have.property('data');\r",
+							"});\r",
+							"\r",
+							"\r",
+							"pm.test(\"Validate the data array - each object should have id_log, turret_id, image_id, location and shot_date properties\", function () {\r",
+							"    const responseData = pm.response.json();\r",
+							"\r",
+							"    pm.expect(responseData).to.be.an('object');\r",
+							"    pm.expect(responseData.data).to.be.an('array');\r",
+							"\r",
+							"    responseData.data.forEach(function(log) {\r",
+							"        pm.expect(log).to.have.property('id_log');\r",
+							"        pm.expect(log).to.have.property('turret_id');\r",
+							"        pm.expect(log).to.have.property('image_id');\r",
+							"        pm.expect(log).to.have.property('location');\r",
+							"        pm.expect(log).to.have.property('shot_date');\r",
+							"    });\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"const bearerToken = pm.environment.get(\"operatorToken\");\r",
+							"\r",
+							"pm.request.headers.add({\r",
+							"    key: \"Authorization\",\r",
+							"    value: `Bearer ${bearerToken}`\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8000/api/logs",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"logs"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Logout Operator",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.expect(pm.response.code).to.equal(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Response body schema for successful logout operation\", function () {\r",
+							"    const responseData = pm.response.json();\r",
+							"    \r",
+							"    pm.expect(responseData).to.be.an('object');\r",
+							"    pm.expect(responseData).to.have.property('message', 'Berhasil Logout');\r",
+							"});\r",
+							"\r",
+							"pm.environment.unset(\"operatorToken\");"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"const bearerToken = pm.environment.get(\"operatorToken\");\r",
+							"\r",
+							"pm.request.headers.add({\r",
+							"    key: \"Authorization\",\r",
+							"    value: `Bearer ${bearerToken}`\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "localhost:8000/api/logout",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"logout"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

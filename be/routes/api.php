@@ -19,7 +19,7 @@ Route::middleware(['auth:sanctum'])->group( function () {
 
 // Operator
 Route::middleware(['auth:sanctum', 'user-access:1'])->group( function () {
-    Route::get('/logs', [LogController::class, 'index']);
+    Route::apiResource('logs', LogController::class);
     Route::apiResource('turrets', TurretController::class);
 });
 
@@ -31,5 +31,5 @@ Route::middleware(['auth:sanctum', 'user-access:2'])->group( function () {
 // Admin
 Route::middleware(['auth:sanctum', 'user-access:3'])->group( function () {
     Route::apiResource('users', UserController::class);
-    Route::get('/mlogs', [ManualLogController::class, 'index']);
+    Route::apiResource('mlogs', ManualLogController::class);
 });

@@ -16,7 +16,7 @@ class TurretController extends Controller
     {
         $turrets = Turret::orderBy('id_turret')->get();
 
-        return new TurretResource(true, 'List data turret', $turrets);
+        return new TurretResource(true, 'Turret list', $turrets);
     }
 
     public function store(Request $request)
@@ -48,7 +48,7 @@ class TurretController extends Controller
             'location'   => $request->location,
         ]);
 
-        return new TurretResource(true, 'Data turret berhasil di tambah', $turret);
+        return new TurretResource(true, 'Turret data added successfully', $turret);
     }
 
     public function update(Request $request, $id)
@@ -93,7 +93,7 @@ class TurretController extends Controller
             ]);
         }
 
-        return new TurretResource(true, 'Data turret berhasil di update.', $turret);
+        return new TurretResource(true, 'Turret data updated successfully', $turret);
     }
 
     public function destroy($id)
@@ -106,6 +106,6 @@ class TurretController extends Controller
         $turret->delete();
         $file->delete();
 
-        return new TurretResource(true, 'Data turret berhasil di hapus.', $turret);
+        return new TurretResource(true, 'Turret data deleted successfully', $turret);
     }
 }

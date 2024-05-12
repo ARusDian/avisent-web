@@ -15,7 +15,7 @@ class UserController extends Controller
     {
         $users = User::orderBy('id_user')->get();
 
-        return new UserResource(true, 'List Data Users', $users);
+        return new UserResource(true, 'Users list', $users);
     }
 
     public function store(Request $request)
@@ -36,7 +36,7 @@ class UserController extends Controller
             'type'   => $request->type,
         ]);
 
-        return new UserResource(true, 'Data Berhasil Di tambah', $user);
+        return new UserResource(true, 'User data added successfully', $user);
     }
 
     public function update(Request $request, $id)
@@ -58,7 +58,7 @@ class UserController extends Controller
             'type'   => $request->type,
         ]);
 
-        return new UserResource(true, 'Data berhasil di update.', $user);
+        return new UserResource(true, 'User data updated successfully', $user);
     }
 
     public function destroy($id)
@@ -66,6 +66,6 @@ class UserController extends Controller
         $user = User::findOrFail($id);
         $user->delete();
 
-        return new UserResource(true, 'Data berhasil di hapus.', $user);
+        return new UserResource(true, 'User data deleted successfully', $user);
     }
 }

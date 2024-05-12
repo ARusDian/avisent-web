@@ -25,7 +25,7 @@ class AuthController extends Controller
 
         if (! Auth::attempt($credentials)) {
             return response()->json([
-                'message' => 'Wrong Credentials'
+                'message' => 'Wrong credentials'
             ], 401);
         } else {
             $user   = User::where('name', $request->name)->firstOrFail();
@@ -43,6 +43,6 @@ class AuthController extends Controller
         $user = $request->user();
         $user->currentAccessToken()->delete();
 
-        return response(['message' => 'Berhasil Logout'], 200);
+        return response(['message' => 'Logout success'], 200);
     }
 }

@@ -7,7 +7,7 @@ use App\Models\Log;
 use App\Models\File;
 use Illuminate\Http\Request;
 use App\Http\Resources\LogResource;
-
+use Illuminate\Support\Facades\Validator;
 
 class LogController extends Controller
 {

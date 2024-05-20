@@ -57,18 +57,7 @@
 				"header": [],
 				"body": {
 					"mode": "formdata",
-					"formdata": [
-						{
-							"key": "name",
-							"value": "admin",
-							"type": "text"
-						},
-						{
-							"key": "password",
-							"value": "12121212",
-							"type": "text"
-						}
-					]
+					"formdata": []
 				},
 				"url": {
 					"raw": "localhost:8000/api/login",
@@ -378,7 +367,7 @@
 							"    \r",
 							"    pm.expect(responseData).to.be.an('object');\r",
 							"    pm.expect(responseData).to.have.property('success', true);\r",
-							"    pm.expect(responseData).to.have.property('message', 'Data berhasil di hapus.');\r",
+							"    pm.expect(responseData).to.have.property('message', 'User data deleted successfully');\r",
 							"});\r",
 							""
 						],
@@ -501,6 +490,99 @@
 			"response": []
 		},
 		{
+			"name": "MLog - Create new manual log",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"const bearerToken = pm.environment.get(\"adminToken\");\r",
+							"pm.request.headers.add({\r",
+							"    key: \"Authorization\",\r",
+							"    value: `Bearer ${bearerToken}`\r",
+							"});\r",
+							"\r",
+							"const formData = {\r",
+							"    user_id: 1,\r",
+							"    turret_id: 1,\r",
+							"    start_date: \"2024-05-07 00:00:00\",\r",
+							"    end_date: \"2024-05-07 00:00:00\",\r",
+							"};\r",
+							"\r",
+							"const formDataString = Object.keys(formData).map(key => {\r",
+							"    return `${(key)}=${(formData[key])}`;\r",
+							"}).join('&');\r",
+							"\r",
+							"pm.request.body = {\r",
+							"    mode: 'urlencoded',\r",
+							"    urlencoded: formDataString\r",
+							"};"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Response status code is 201\", function () {\r",
+							"  pm.response.to.have.status(201);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Content-Type header is application/json\", function () {\r",
+							"    pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(\"application/json\");\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Response has the required fields - success, message, and data\", function () {\r",
+							"    const responseData = pm.response.json();\r",
+							"    \r",
+							"    pm.expect(responseData).to.be.an('object');\r",
+							"    pm.expect(responseData).to.have.property('success');\r",
+							"    pm.expect(responseData).to.have.property('message');\r",
+							"    pm.expect(responseData).to.have.property('data');\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Validate the data array - each object should have id_manual_log, user_id, turret_id, start_date and end_date properties\", function () {\r",
+							"    const responseData = pm.response.json();\r",
+							"\r",
+							"    pm.expect(responseData).to.be.an('object');\r",
+							"    pm.expect(responseData.data).to.have.property('id_manual_log');\r",
+							"    pm.expect(responseData.data).to.have.property('user_id');\r",
+							"    pm.expect(responseData.data).to.have.property('turret_id');\r",
+							"    pm.expect(responseData.data).to.have.property('start_date');\r",
+							"    pm.expect(responseData.data).to.have.property('end_date');\r",
+							"});\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": []
+				},
+				"url": {
+					"raw": "localhost:8000/api/mlogs",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"mlogs"
+					]
+				}
+			},
+			"response": []
+		},
+		{
 			"name": "Logout Admin",
 			"event": [
 				{
@@ -515,7 +597,7 @@
 							"    const responseData = pm.response.json();\r",
 							"    \r",
 							"    pm.expect(responseData).to.be.an('object');\r",
-							"    pm.expect(responseData).to.have.property('message', 'Berhasil Logout');\r",
+							"    pm.expect(responseData).to.have.property('message', 'Logout success');\r",
 							"});\r",
 							"\r",
 							"pm.environment.unset(\"adminToken\");"

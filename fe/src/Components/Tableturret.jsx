@@ -151,7 +151,7 @@ const Tableturret = () => {
         </div>
 
         {/* Tombol "Add" */}
-        <div className="absolute bottom-16 right-48">
+        <div className="absolute bottom-16 right-48 ">
           <button
             onClick={() => navigate("/formturret")}
             className="bg-[#697077] text-white shadow hover:bg-[#f8dbb3] px-12 py-2 rounded-xl"

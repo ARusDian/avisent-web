@@ -110,7 +110,10 @@ const Tableturret = () => {
                   {turret.endDate}
                 </td>
                 <td className="border border-[#697077] px-4 py-2 flex justify-center items-center space-x-2">
-                  <button className="bg-blue-500 text-white px-2 py-1 hover:bg-blue-700 w-full rounded-xl shadow-lg">
+                  <button
+                    className="bg-blue-500 text-white px-2 py-1 hover:bg-blue-700 w-full rounded-xl shadow-lg"
+                    onClick={() => navigate("/formeditturret")}
+                  >
                     Edit
                   </button>
                   <button className="bg-red-500 text-white px-2 py-1 hover:bg-red-700 w-full rounded-xl shadow-lg">
@@ -122,13 +125,12 @@ const Tableturret = () => {
           </tbody>
         </table>
 
-        {/* Kontrol Paginasi */}
         <div className="flex justify-center space-x-2 my-20">
           <button
             disabled={currentPage <= 1}
             onClick={() => {
               setCurrentPage(currentPage - 1);
-              navigate(""); // Mengarahkan saat tombol "Prev" diklik
+              navigate("");
             }}
           >
             {"< Prev"}
@@ -142,7 +144,7 @@ const Tableturret = () => {
               }`}
               onClick={() => {
                 setCurrentPage(index + 1);
-                navigate(""); // Mengarahkan saat nomor halaman diklik
+                navigate("");
               }}
             >
               {index + 1}
@@ -153,7 +155,7 @@ const Tableturret = () => {
             disabled={currentPage >= pageCount}
             onClick={() => {
               setCurrentPage(currentPage + 1);
-              navigate(""); // Mengarahkan saat tombol "Next" diklik
+              navigate("");
             }}
           >
             {"Next >"}

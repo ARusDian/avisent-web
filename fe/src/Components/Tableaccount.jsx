@@ -1,6 +1,8 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 const Tableaccount = () => {
+  const navigate = useNavigate();
   const accounts = [
     {
       id: "1001",
@@ -114,7 +116,10 @@ const Tableaccount = () => {
                   {account.type}
                 </td>
                 <td className="border border-[#697077] px-4 py-2 flex justify-center items-center space-x-2">
-                  <button className="bg-blue-500 text-white px-2 py-1  hover:bg-blue-700 w-full rounded-xl shadow-lg">
+                  <button
+                    className="bg-blue-500 text-white px-2 py-1 hover:bg-blue-700 w-full rounded-xl shadow-lg"
+                    onClick={() => navigate("/formedituser")}
+                  >
                     Edit
                   </button>
                   <button className="bg-red-500 text-white px-2 py-1  hover:bg-red-700 w-full rounded-xl shadow-lg">
@@ -151,6 +156,14 @@ const Tableaccount = () => {
             className="p-2 border rounded shadow text-gray-600 hover:bg-gray-200"
           >
             {"Next >"}
+          </button>
+        </div>
+        <div className="absolute bottom-16 right-48">
+          <button
+            onClick={() => navigate("/formuser")}
+            className="bg-[#697077] text-white shadow hover:bg-[#f8dbb3] px-12 py-2 rounded-xl"
+          >
+            Add
           </button>
         </div>
       </div>

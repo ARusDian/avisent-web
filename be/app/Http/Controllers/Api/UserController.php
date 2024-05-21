@@ -21,7 +21,7 @@ class UserController extends Controller
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'name' => 'required|string',
+            'name' => 'required|string|unique:users',
             'password' => 'required|min:8',
             'type' => 'required|numeric',
         ]);
@@ -42,7 +42,7 @@ class UserController extends Controller
     public function update(Request $request, $id)
     {
         $validator = Validator::make($request->all(), [
-            'name' => 'required|string',
+            'name' => 'required|string|unique:users',
             'password' => 'required|min:8',
             'type' => 'required|numeric',
         ]);

@@ -1,17 +1,52 @@
-import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { useNavigate, useLocation } from "react-router-dom";
+import axios from "axios";
 
 const Edituser = () => {
-  // State untuk menyimpan data dari formulir
+  const location = useLocation();
+  const { userId } = location.state;
+
   const [formData, setFormData] = useState({
-    user: "",
     name: "",
-    password: "",
-    operator: false, // State untuk checkbox
+    password: "******",
+    role: "",
   });
 
-  // Mendapatkan fungsi navigasi
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const accessToken = localStorage.getItem("token");
+
+    axios
+      .get(`http://127.0.0.1:8000/api/users/${userId}`, {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      })
+      .then((response) => {
+        if (response.data.success) {
+          const user = response.data.data;
+          setFormData({
+            name: user.name,
+            password: "******",
+            role: user.type === 1 ? "operator" : user.type === 3 ? "admin" : "",
+          });
+        } else {
+          console.error("Gagal mengambil data pengguna", response.data);
+          setError("Failed to fetch user");
+        }
+      })
+      .catch((error) => {
+        console.error("Error:", error);
+        console.error("Error Response:", error.response);
+        setError("Failed to fetch user data");
+      })
+      .finally(() => {
+        setLoading(false);
+      });
+  }, [userId]);
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
@@ -21,21 +56,63 @@ const Edituser = () => {
     });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
-    console.log("Form submitted:", formData); // Debug output
+    if (!formData.role) {
+      setError("You must choose the role");
+      return;
+    }
 
-    // Reset formulir
-    setFormData({
-      user: "",
-      name: "",
-      password: "",
-      operator: false,
-    });
+    const accessToken = localStorage.getItem("token");
 
-    navigate("/Addaccount");
+    try {
+      const userType =
+        formData.role === "operator"
+          ? 1
+          : formData.role === "admin"
+          ? 3
+          : undefined;
+
+      const payload = {
+        name: formData.name,
+        type: userType,
+      };
+
+      if (formData.password !== "******") {
+        payload.password = formData.password;
+      }
+
+      const response = await axios.put(
+        `http://127.0.0.1:8000/api/users/${userId}`,
+        payload,
+        {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        }
+      );
+
+      if (response.status === 200) {
+        console.log("User updated successfully");
+        navigate("/Addaccount");
+      } else {
+        console.error("Failed to update user");
+        setError("Nothing Change");
+      }
+    } catch (error) {
+      console.error("Error updating user:", error);
+      if (error.response && error.response.status === 422) {
+        setError("Nothing Change");
+      } else {
+        setError("Error updating user");
+      }
+    }
   };
+
+  if (loading) {
+    return <div>Loading...</div>;
+  }
 
   return (
     <div className="flex justify-center items-center min-h-screen bg-gray-100">
@@ -44,23 +121,6 @@ const Edituser = () => {
         onSubmit={handleSubmit}
       >
         <h2 className="text-2xl font-bold mb-6 text-center">Edit User</h2>
-
-        <div className="mb-4">
-          <label
-            className="block text-gray-700 text-sm font-bold mb-2"
-            htmlFor="user"
-          >
-            User
-          </label>
-          <input
-            type="text"
-            name="user"
-            placeholder="Enter User ID"
-            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-            value={formData.user}
-            onChange={handleChange}
-          />
-        </div>
 
         <div className="mb-4">
           <label
@@ -96,18 +156,32 @@ const Edituser = () => {
           />
         </div>
 
-        <div className="mb-4">
+        <div className="flex space-x-4 mb-4">
           <label className="inline-flex items-center">
             <input
-              type="checkbox"
-              name="operator"
-              checked={formData.operator}
+              type="radio"
+              name="role"
+              value="operator"
+              checked={formData.role === "operator"}
               onChange={handleChange}
-              className="form-checkbox text-blue-600"
+              className="form-radio text-blue-600"
             />
             <span className="ml-2 text-gray-700">Operator</span>
           </label>
+          <label className="inline-flex items-center">
+            <input
+              type="radio"
+              name="role"
+              value="admin"
+              checked={formData.role === "admin"}
+              onChange={handleChange}
+              className="form-radio text-blue-600"
+            />
+            <span className="ml-2 text-gray-700">Admin</span>
+          </label>
         </div>
+
+        {error && <div className="text-red-500 text-center mb-4">{error}</div>}
 
         <div className="text-center mt-10">
           <button

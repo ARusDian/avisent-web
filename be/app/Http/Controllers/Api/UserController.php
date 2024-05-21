@@ -39,6 +39,13 @@ class UserController extends Controller
         return new UserResource(true, 'User data added successfully', $user);
     }
 
+    public function show($id)
+    {
+        $user = User::findOrFail($id);
+        
+        return new UserResource(true, 'User data deleted successfully', $user);
+    }
+
     public function update(Request $request, $id)
     {
         $validator = Validator::make($request->all(), [

@@ -109,26 +109,6 @@ const Formadduser = () => {
         <div className="mb-4">
           <label
             className="block text-gray-700 text-sm font-bold mb-2"
-            htmlFor="user"
-          >
-            User
-          </label>
-          <input
-            type="text"
-            name="user"
-            placeholder="Enter User ID"
-            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-            value={formData.user}
-            onChange={handleChange}
-          />
-          {errors.user && (
-            <p className="text-red-500 text-xs italic">{errors.user}</p>
-          )}
-        </div>
-
-        <div className="mb-4">
-          <label
-            className="block text-gray-700 text-sm font-bold mb-2"
             htmlFor="name"
           >
             Name

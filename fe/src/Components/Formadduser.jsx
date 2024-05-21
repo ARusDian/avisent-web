@@ -1,40 +1,97 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
 const Formadduser = () => {
-  // State untuk menyimpan data dari formulir
   const [formData, setFormData] = useState({
     user: "",
     name: "",
     password: "",
-    operator: false, // State untuk checkbox
+    operator: false,
+    admin: false,
+    type: 0,
   });
 
-  // Mendapatkan fungsi navigasi
+  const [errors, setErrors] = useState({});
+  const [submitting, setSubmitting] = useState(false);
   const navigate = useNavigate();
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
-    setFormData({
+    const newFormData = {
       ...formData,
       [name]: type === "checkbox" ? checked : value,
-    });
+    };
+
+    if (name === "operator" && checked) {
+      newFormData.type = 1;
+    } else if (name === "admin" && checked) {
+      newFormData.type = 3;
+    } else if (!newFormData.operator && !newFormData.admin) {
+      newFormData.type = 0;
+    }
+
+    setFormData(newFormData);
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
-    console.log("Form submitted:", formData); // Debug output
+    // Validasi checkbox
+    if (!formData.operator && !formData.admin) {
+      setErrors({ checkbox: "Please select at least one option" });
+      return;
+    }
 
-    // Reset formulir
-    setFormData({
-      user: "",
-      name: "",
-      password: "",
-      operator: false,
-    });
+    setSubmitting(true);
 
-    navigate("/addaccount");
+    const accessToken = localStorage.getItem("token");
+
+    // Konversi formData menjadi format URL-encoded
+    const formDataString = Object.keys(formData)
+      .map((key) => {
+        return `${encodeURIComponent(key)}=${encodeURIComponent(
+          formData[key]
+        )}`;
+      })
+      .join("&");
+
+    try {
+      const response = await axios.post(
+        "http://127.0.0.1:8000/api/users",
+        formDataString,
+        {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+            "Content-Type": "application/x-www-form-urlencoded",
+          },
+        }
+      );
+      console.log("Response:", response.data);
+
+      setFormData({
+        user: "",
+        name: "",
+        password: "",
+        operator: false,
+        admin: false,
+        type: 0,
+      });
+
+      navigate("/addaccount");
+    } catch (error) {
+      if (error.response) {
+        console.error("Error response:", error.response.data);
+        setErrors(error.response.data);
+      } else if (error.request) {
+        console.error("Error request:", error.request);
+      } else {
+        console.error("Error message:", error.message);
+      }
+      console.error("There was an error posting the data!", error);
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   return (
@@ -44,6 +101,10 @@ const Formadduser = () => {
         onSubmit={handleSubmit}
       >
         <h2 className="text-2xl font-bold mb-6 text-center">Add New Account</h2>
+
+        {errors.checkbox && (
+          <p className="text-red-500 text-sm mb-4">{errors.checkbox}</p>
+        )}
 
         <div className="mb-4">
           <label
@@ -60,6 +121,9 @@ const Formadduser = () => {
             value={formData.user}
             onChange={handleChange}
           />
+          {errors.user && (
+            <p className="text-red-500 text-xs italic">{errors.user}</p>
+          )}
         </div>
 
         <div className="mb-4">
@@ -77,6 +141,9 @@ const Formadduser = () => {
             value={formData.name}
             onChange={handleChange}
           />
+          {errors.name && (
+            <p className="text-red-500 text-xs italic">{errors.name}</p>
+          )}
         </div>
 
         <div className="mb-4">
@@ -94,9 +161,12 @@ const Formadduser = () => {
             value={formData.password}
             onChange={handleChange}
           />
+          {errors.password && (
+            <p className="text-red-500 text-xs italic">{errors.password}</p>
+          )}
         </div>
 
-        <div className="mb-4">
+        <div className="flex space-x-4 mb-4">
           <label className="inline-flex items-center">
             <input
               type="checkbox"
@@ -107,14 +177,25 @@ const Formadduser = () => {
             />
             <span className="ml-2 text-gray-700">Operator</span>
           </label>
+          <label className="inline-flex items-center">
+            <input
+              type="checkbox"
+              name="admin"
+              checked={formData.admin}
+              onChange={handleChange}
+              className="form-checkbox text-blue-600"
+            />
+            <span className="ml-2 text-gray-700">Admin</span>
+          </label>
         </div>
 
         <div className="text-center mt-10">
           <button
             type="submit"
             className="bg-[#697077] text-white shadow hover:bg-[#f8dbb3] font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+            disabled={submitting}
           >
-            Add
+            {submitting ? "Adding..." : "Add"}
           </button>
         </div>
       </form>

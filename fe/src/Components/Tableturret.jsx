@@ -1,72 +1,64 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
 const Tableturret = () => {
   const navigate = useNavigate();
-  const turrets = [
-    {
-      user: "123",
-      turret: "456",
-      startDate: "27-02-2024",
-      endDate: "29-04-2024",
-    },
-    {
-      user: "124",
-      turret: "457",
-      startDate: "28-02-2024",
-      endDate: "30-04-2024",
-    },
-    {
-      user: "125",
-      turret: "458",
-      startDate: "01-03-2024",
-      endDate: "01-05-2024",
-    },
-    {
-      user: "126",
-      turret: "459",
-      startDate: "02-03-2024",
-      endDate: "02-05-2024",
-    },
-    {
-      user: "127",
-      turret: "460",
-      startDate: "03-03-2024",
-      endDate: "03-05-2024",
-    },
-    {
-      user: "128",
-      turret: "461",
-      startDate: "04-03-2024",
-      endDate: "04-05-2024",
-    },
-    {
-      user: "129",
-      turret: "462",
-      startDate: "05-03-2024",
-      endDate: "05-05-2024",
-    },
-    {
-      user: "130",
-      turret: "463",
-      startDate: "06-03-2024",
-      endDate: "06-05-2024",
-    },
-    {
-      user: "131",
-      turret: "464",
-      startDate: "07-03-2024",
-      endDate: "07-05-2024",
-    },
-  ];
-
-  // Pagination setup
-  const itemsPerPage = 5;
+  const [logs, setLogs] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
-  const pageCount = Math.ceil(turrets.length / itemsPerPage);
+  const itemsPerPage = 5;
+  const pageCount = Math.ceil(logs.length / itemsPerPage);
   const lastItemIndex = currentPage * itemsPerPage;
   const firstItemIndex = lastItemIndex - itemsPerPage;
-  const currentItems = turrets.slice(firstItemIndex, lastItemIndex);
+  const currentItems = logs.slice(firstItemIndex, lastItemIndex);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const accessToken = localStorage.getItem("token");
+
+      try {
+        const response = await axios.get("http://127.0.0.1:8000/api/mlogs", {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        });
+        const data = response.data;
+
+        if (data.success) {
+          setLogs(data.data);
+        } else {
+          console.error("Gagal mengambil data log manual");
+        }
+      } catch (error) {
+        console.error("Error:", error);
+      }
+    };
+
+    fetchData();
+  }, []);
+
+  const handleDelete = async (id) => {
+    const accessToken = localStorage.getItem("token");
+
+    try {
+      const response = await axios.delete(
+        `http://127.0.0.1:8000/api/mlogs/${id}`,
+        {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        }
+      );
+
+      if (response.status === 200) {
+        setLogs(logs.filter((log) => log.id_manual_log !== id));
+      } else {
+        console.error("Gagal menghapus log manual");
+      }
+    } catch (error) {
+      console.error("Error saat menghapus log manual:", error);
+    }
+  };
 
   return (
     <div className="flex flex-col min-h-screen justify-between">
@@ -95,19 +87,19 @@ const Tableturret = () => {
             </tr>
           </thead>
           <tbody>
-            {currentItems.map((turret, index) => (
+            {currentItems.map((log, index) => (
               <tr key={index}>
                 <td className="border border-[#697077] px-4 py-2 text-center align-middle">
-                  {turret.user}
+                  {log.user_id}
                 </td>
                 <td className="border border-[#697077] px-4 py-2 text-center align-middle">
-                  {turret.turret}
+                  {log.turret_id}
                 </td>
                 <td className="border border-[#697077] px-4 py-2 text-center align-middle">
-                  {turret.startDate}
+                  {log.start_date}
                 </td>
                 <td className="border border-[#697077] px-4 py-2 text-center align-middle">
-                  {turret.endDate}
+                  {log.end_date}
                 </td>
                 <td className="border border-[#697077] px-4 py-2 flex justify-center items-center space-x-2">
                   <button
@@ -116,7 +108,10 @@ const Tableturret = () => {
                   >
                     Edit
                   </button>
-                  <button className="bg-red-500 text-white px-2 py-1 hover:bg-red-700 w-full rounded-xl shadow-lg">
+                  <button
+                    className="bg-red-500 text-white px-2 py-1 hover:bg-red-700 w-full rounded-xl shadow-lg"
+                    onClick={() => handleDelete(log.id_manual_log)}
+                  >
                     Delete
                   </button>
                 </td>
@@ -128,10 +123,8 @@ const Tableturret = () => {
         <div className="flex justify-center space-x-2 my-20">
           <button
             disabled={currentPage <= 1}
-            onClick={() => {
-              setCurrentPage(currentPage - 1);
-              navigate("");
-            }}
+            onClick={() => setCurrentPage(currentPage - 1)}
+            className="p-2 border rounded shadow text-gray-600 hover:bg-gray-200"
           >
             {"< Prev"}
           </button>
@@ -142,10 +135,7 @@ const Tableturret = () => {
               className={`p-2 border rounded shadow ${
                 currentPage === index + 1 ? "bg-gray-300" : "hover:bg-gray-200"
               }`}
-              onClick={() => {
-                setCurrentPage(index + 1);
-                navigate("");
-              }}
+              onClick={() => setCurrentPage(index + 1)}
             >
               {index + 1}
             </button>
@@ -153,10 +143,8 @@ const Tableturret = () => {
 
           <button
             disabled={currentPage >= pageCount}
-            onClick={() => {
-              setCurrentPage(currentPage + 1);
-              navigate("");
-            }}
+            onClick={() => setCurrentPage(currentPage + 1)}
+            className="p-2 border rounded shadow text-gray-600 hover:bg-gray-200"
           >
             {"Next >"}
           </button>

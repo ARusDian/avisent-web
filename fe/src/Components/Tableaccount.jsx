@@ -1,77 +1,75 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
 const Tableaccount = () => {
   const navigate = useNavigate();
-  const accounts = [
-    {
-      id: "1001",
-      name: "Rina",
-      password: "RinaPass123",
-      type: "Operator",
-    },
-    {
-      id: "1002",
-      name: "Aldo",
-      password: "AldoPass456",
-      type: "Operator",
-    },
-    {
-      id: "1003",
-      name: "Siti",
-      password: "SitiPass789",
-      type: "Operator",
-    },
-    {
-      id: "1004",
-      name: "Bayu",
-      password: "BayuPass012",
-      type: "Operator",
-    },
-    {
-      id: "1005",
-      name: "Dewi",
-      password: "DewiPass345",
-      type: "Operator",
-    },
-    {
-      id: "1006",
-      name: "Fajar",
-      password: "FajarPass678",
-      type: "Operator",
-    },
-    {
-      id: "1007",
-      name: "Galih",
-      password: "GalihPass901",
-      type: "Operator",
-    },
-    {
-      id: "1008",
-      name: "Hana",
-      password: "HanaPass234",
-      type: "Operator",
-    },
-    {
-      id: "1009",
-      name: "Indra",
-      password: "IndraPass567",
-      type: "Operator",
-    },
-    {
-      id: "1010",
-      name: "Joko",
-      password: "JokoPass890",
-      type: "Operator",
-    },
-  ];
-
-  const itemsPerPage = 5;
+  const [accounts, setAccounts] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 5;
   const pageCount = Math.ceil(accounts.length / itemsPerPage);
   const lastItemIndex = currentPage * itemsPerPage;
   const firstItemIndex = lastItemIndex - itemsPerPage;
   const currentItems = accounts.slice(firstItemIndex, lastItemIndex);
+
+  useEffect(() => {
+    const accessToken = localStorage.getItem("token");
+
+    axios
+      .get("http://127.0.0.1:8000/api/users", {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      })
+      .then((response) => {
+        console.log("Response status:", response.status);
+        const data = response.data;
+        console.log("Response data:", data);
+        if (data.success) {
+          setAccounts(
+            data.data.map((user) => ({
+              id: user.id_user,
+              name: user.name,
+              password: "******",
+              type:
+                user.type === 1
+                  ? "Operator"
+                  : user.type === 2
+                  ? "Alat"
+                  : "Admin",
+            }))
+          );
+        } else {
+          console.error("Gagal mengambil data pengguna");
+        }
+      })
+      .catch((error) => console.error("Error:", error));
+  }, []);
+
+  const handleDelete = async (id) => {
+    const accessToken = localStorage.getItem("token");
+
+    try {
+      const response = await axios.delete(
+        `http://127.0.0.1:8000/api/users/${id}`,
+        {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        }
+      );
+      console.log("Delete Response:", response);
+
+      if (response.status === 200) {
+        // Filter out the deleted account
+        setAccounts(accounts.filter((account) => account.id !== id));
+      } else {
+        console.error("Gagal menghapus pengguna");
+      }
+    } catch (error) {
+      console.error("Error saat menghapus pengguna:", error);
+    }
+  };
 
   return (
     <div className="flex flex-col min-h-screen justify-between">
@@ -102,7 +100,6 @@ const Tableaccount = () => {
           <tbody>
             {currentItems.map((account, index) => (
               <tr key={index}>
-                {" "}
                 <td className="border border-[#697077] px-4 py-2 text-center align-middle ">
                   {account.id}
                 </td>
@@ -122,7 +119,10 @@ const Tableaccount = () => {
                   >
                     Edit
                   </button>
-                  <button className="bg-red-500 text-white px-2 py-1  hover:bg-red-700 w-full rounded-xl shadow-lg">
+                  <button
+                    className="bg-red-500 text-white px-2 py-1 hover:bg-red-700 w-full rounded-xl shadow-lg"
+                    onClick={() => handleDelete(account.id)}
+                  >
                     Delete
                   </button>
                 </td>

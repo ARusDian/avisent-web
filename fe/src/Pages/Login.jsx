@@ -9,8 +9,8 @@ const Login = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    const token = localStorage.getItem("token");
-    if (token) {
+    const localToken = localStorage.getItem("token");
+    if (localToken) {
       navigate("/home");
     }
   }, [navigate]);
@@ -31,16 +31,6 @@ const Login = () => {
     } catch (err) {
       console.error(err);
       setError("An error occurred during login. Please try again.");
-    }
-  };
-
-  const handleLogout = async () => {
-    try {
-      await axios.post("http://127.0.0.1:8000/api/logout");
-      localStorage.removeItem("token");
-      navigate("/login");
-    } catch (error) {
-      console.error("Logout failed:", error);
     }
   };
 
@@ -84,17 +74,14 @@ const Login = () => {
             />
           </div>
           {error && <div className="text-red-500 text-sm my-2">{error}</div>}
-          <div className=" flex flex-col my-4 text-white bg-[#697077] rounded-md p-4 text-center items-center justify-center hover:bg-[#46423c]">
-            <button type="submit">Login</button>
-          </div>
-        </form>
 
-        <div
-          className="text-white bg-[#697077] rounded-md p-4 text-center items-center justify-center hover:bg-[#46423c]"
-          onClick={handleLogout}
-        >
-          Logout
-        </div>
+          <button
+            type="submit"
+            className=" flex flex-col my-4 text-white bg-[#697077] rounded-md p-4 text-center items-center justify-center hover:bg-[#46423c]"
+          >
+            Login
+          </button>
+        </form>
       </div>
     </div>
   );

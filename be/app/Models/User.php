@@ -28,4 +28,9 @@ class User extends Authenticatable
     }
 
     public $timestamps = false;
+
+    public function mlog(): HasMany
+    {
+        return $this->hasMany(ManualLog::class, 'user_id', 'id_user');
+    }
 }

@@ -14,9 +14,19 @@ class TurretController extends Controller
 {
     public function index()
     {
-        $turrets = Turret::orderBy('id_turret')->get();
+        $turrets = Turret::with('file')->orderBy('id_turret')->get();
 
-        return new TurretResource(true, 'Turret list', $turrets);
+        $formattedturrets = $turrets->map(function($turret) {
+            return [
+                'id_turret' => $turret->id_turret,
+                'turret_image' => $turret->file->path,
+                'description' => $turret->description,
+                'secret_key' => $turret->secret_key,
+                'location' => $turret->location,
+            ];
+        });
+
+        return new TurretResource(true, 'Turret list', $formattedturrets);
     }
 
     public function store(Request $request)

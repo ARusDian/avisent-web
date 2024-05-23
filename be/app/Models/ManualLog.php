@@ -18,15 +18,15 @@ class ManualLog extends Model
         'end_date',
     ];
 
-    public $timestamps = false;
+    public function user(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'user_id', 'id_user');
+    }
 
     public function turret(): BelongsTo
     {
-        return $this->belongsTo(Turret::class, 'id_turret', 'turret_id');
+        return $this->belongsTo(Turret::class, 'turret_id', 'id_turret');
     }
 
-    public function user(): BelongsTo
-    {
-        return $this->belongsTo(User::class, 'id_user', 'user_id');
-    }
+    public $timestamps = false;
 }

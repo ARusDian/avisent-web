@@ -30,4 +30,9 @@ class Turret extends Model
     {
         return $this->hasMany(Log::class, 'turret_id', 'id_turret');
     }
+
+    public function mlog(): HasMany
+    {
+        return $this->hasMany(ManualLog::class, 'turret_id', 'id_turret');
+    }
 }

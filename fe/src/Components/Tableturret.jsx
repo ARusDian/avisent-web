@@ -4,30 +4,29 @@ import axios from "axios";
 
 const Tableturret = () => {
   const navigate = useNavigate();
-  const [logs, setLogs] = useState([]);
+  const [turrets, setTurrets] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 5;
-  const pageCount = Math.ceil(logs.length / itemsPerPage);
+  const pageCount = Math.ceil(turrets.length / itemsPerPage);
   const lastItemIndex = currentPage * itemsPerPage;
   const firstItemIndex = lastItemIndex - itemsPerPage;
-  const currentItems = logs.slice(firstItemIndex, lastItemIndex);
+  const currentItems = turrets.slice(firstItemIndex, lastItemIndex);
 
   useEffect(() => {
     const fetchData = async () => {
-      const accessToken = localStorage.getItem("token");
-
+      const token = localStorage.getItem("token");
       try {
-        const response = await axios.get("http://127.0.0.1:8000/api/mlogs", {
+        const response = await axios.get("http://localhost:8000/api/turrets", {
           headers: {
-            Authorization: `Bearer ${accessToken}`,
+            Authorization: `Bearer ${token}`,
           },
         });
         const data = response.data;
 
         if (data.success) {
-          setLogs(data.data);
+          setTurrets(data.data);
         } else {
-          console.error("Gagal mengambil data log manual");
+          console.error("Failed to get data from turret");
         }
       } catch (error) {
         console.error("Error:", error);
@@ -37,26 +36,35 @@ const Tableturret = () => {
     fetchData();
   }, []);
 
+  const handleAddClick = () => {
+    navigate("/operator/turret/create");
+  };
+
+  const handleEdit = (id) => {
+    navigate(`/operator/turret/edit`);
+  };
+
   const handleDelete = async (id) => {
     const accessToken = localStorage.getItem("token");
 
     try {
       const response = await axios.delete(
-        `http://127.0.0.1:8000/api/mlogs/${id}`,
+        `http://127.0.0.1:8000/api/turrets/${id}`,
         {
           headers: {
             Authorization: `Bearer ${accessToken}`,
           },
         }
       );
+      console.log("Delete Response:", response);
 
       if (response.status === 200) {
-        setLogs(logs.filter((log) => log.id_manual_log !== id));
+        setTurrets(turrets.filter((turret) => turret.id_turret !== id));
       } else {
-        console.error("Gagal menghapus log manual");
+        console.error("Gagal menghapus turret");
       }
     } catch (error) {
-      console.error("Error saat menghapus log manual:", error);
+      console.error("Error saat menghapus turret:", error);
     }
   };
 
@@ -64,9 +72,9 @@ const Tableturret = () => {
     <div className="flex flex-col min-h-screen justify-between">
       <div className="flex flex-1 flex-col items-center mt-24 justify-center mb-12">
         <div className="flex flex-col">
-          <div className="flex justify-end ">
+          <div className="flex justify-end">
             <button
-              onClick={() => navigate("/formturret")}
+              onClick={handleAddClick}
               className="bg-[#697077] text-white shadow hover:bg-[#f8dbb3] px-12 py-2 rounded-xl"
             >
               Add
@@ -79,33 +87,60 @@ const Tableturret = () => {
             <thead>
               <tr>
                 <th className="bg-[#697077] text-white border border-black font-roboto px-20 py-2 rounded-tl-xl">
-                  User ID
-                </th>
-                <th className="bg-[#697077] text-white border border-black font-roboto px-20 py-2">
                   Turret ID
                 </th>
                 <th className="bg-[#697077] text-white border border-black font-roboto px-20 py-2">
-                  Start Date
+                  Turret Image
+                </th>
+                <th className="bg-[#697077] text-white border border-black font-roboto px-20 py-2">
+                  Description
+                </th>
+                <th className="bg-[#697077] text-white border border-black font-roboto px-20 py-2">
+                  Secret Key
+                </th>
+                <th className="bg-[#697077] text-white border border-black font-roboto px-20 py-2">
+                  Location
                 </th>
                 <th className="bg-[#697077] text-white border border-black font-roboto px-20 py-2 rounded-tr-xl">
-                  End Date
+                  Action
                 </th>
               </tr>
             </thead>
             <tbody>
-              {currentItems.map((log, index) => (
-                <tr key={index}>
+              {currentItems.map((turret) => (
+                <tr key={turret.id_turret}>
                   <td className="border border-[#697077] px-4 py-2 text-center align-middle">
-                    {log.user_id}
+                    {turret.id_turret}
                   </td>
                   <td className="border border-[#697077] px-4 py-2 text-center align-middle">
-                    {log.turret_id}
+                    <img
+                      src={turret.turret_image}
+                      alt={`Turret Image ${turret.id_turret}`}
+                      className="h-20 w-20 object-cover"
+                    />
                   </td>
                   <td className="border border-[#697077] px-4 py-2 text-center align-middle">
-                    {log.start_date}
+                    {turret.description}
                   </td>
                   <td className="border border-[#697077] px-4 py-2 text-center align-middle">
-                    {log.end_date}
+                    {turret.secret_key}
+                  </td>
+                  <td className="border border-[#697077] px-4 py-2 text-center align-middle">
+                    {turret.location}
+                  </td>
+                  <td className="border border-[#697077] px-10 py-2 text-center align-middle">
+                    <button
+                      className="bg-blue-500 text-white px-2 py-1 hover:bg-blue-700 w-full rounded-xl shadow-lg"
+                      onClick={() => handleEdit(turret.id_turret)}
+                    >
+                      Edit
+                    </button>
+                    <button
+                      className="bg-red-500 text-white px-2 py-1 hover:bg-red-700 w-full rounded-xl shadow-lg mt-2"
+                      onClick={() => handleDelete(turret.id_turret)}
+                    >
+                      Delete
+                    </button>
                   </td>
                 </tr>
               ))}
@@ -121,19 +156,17 @@ const Tableturret = () => {
           >
             {"< Prev"}
           </button>
-
           {Array.from({ length: pageCount }, (_, index) => (
             <button
               key={index}
+              onClick={() => setCurrentPage(index + 1)}
               className={`p-2 border rounded shadow ${
                 currentPage === index + 1 ? "bg-gray-300" : "hover:bg-gray-200"
               }`}
-              onClick={() => setCurrentPage(index + 1)}
             >
               {index + 1}
             </button>
           ))}
-
           <button
             disabled={currentPage >= pageCount}
             onClick={() => setCurrentPage(currentPage + 1)}

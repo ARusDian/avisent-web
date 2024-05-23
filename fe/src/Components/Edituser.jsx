@@ -9,7 +9,7 @@ const Edituser = () => {
   const [formData, setFormData] = useState({
     name: "",
     role: "",
-    password: "", // Initialize the password field here
+    password: "",
   });
 
   const [originalPassword, setOriginalPassword] = useState("");
@@ -32,9 +32,9 @@ const Edituser = () => {
           setFormData({
             name: user.name,
             role: user.type === 1 ? "operator" : user.type === 3 ? "admin" : "",
-            password: "", // Clear the password field here
+            password: "",
           });
-          setOriginalPassword(user.password); // Store the original password
+          setOriginalPassword(user.password); // password originalnya
         } else {
           console.error("Gagal mengambil data pengguna", response.data);
           setError("Failed to fetch user");
@@ -79,7 +79,7 @@ const Edituser = () => {
       const payload = {
         name: formData.name,
         type: userType,
-        password: formData.password || originalPassword, // Use the original password if not changed
+        password: formData.password || originalPassword, // original password tidak berubah
       };
 
       const response = await axios.put(

@@ -48,8 +48,10 @@ class UserController extends Controller
 
     public function update(Request $request, $id)
     {
+        $user = User::findOrFail($id);
+
         $validator = Validator::make($request->all(), [
-            'name' => 'required|string|unique:users',
+            'name' => 'required|string|unique:users,name,' . $user->id_user . ',id_user',
             'password' => 'required|min:8',
             'type' => 'required|numeric',
         ]);
@@ -58,7 +60,6 @@ class UserController extends Controller
             return response()->json($validator->errors(), 422);
         }
 
-        $user = User::findOrFail($id);
         $user->update([
             'name'     => $request->name,
             'password'     => Hash::make($request->password),

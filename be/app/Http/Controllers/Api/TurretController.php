@@ -19,7 +19,7 @@ class TurretController extends Controller
         $formattedturrets = $turrets->map(function($turret) {
             return [
                 'id_turret' => $turret->id_turret,
-                'turret_image' => $turret->file->path,
+                'turret_image' => asset('storage/turrets/' . $turret->file->path),
                 'description' => $turret->description,
                 'secret_key' => $turret->secret_key,
                 'location' => $turret->location,
@@ -67,7 +67,7 @@ class TurretController extends Controller
 
         $formattedturret =  [
                 'id_turret' => $turret->id_turret,
-                'turret_image' => $turret->file->path,
+                'turret_image' => asset('storage/turrets/' . $turret->file->path),
                 'description' => $turret->description,
                 'secret_key' => $turret->secret_key,
                 'location' => $turret->location,

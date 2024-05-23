@@ -21,7 +21,7 @@ class ManualLogController extends Controller
                 'id_user' => $mlog->user_id,
                 'user_name' => $mlog->user->name,
                 'id_turret' => $mlog->turret_id,
-                'turret_image' => $mlog->turret->file->path,
+                'turret_image' => asset('storage/turrets/' . $mlog->turret->file->path),
                 'turret_description' => $mlog->turret->description,
                 'turret_secret_key' => $mlog->turret->secret_key,
                 'turret_location' => $mlog->turret->location,

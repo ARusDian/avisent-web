@@ -1,9 +1,9 @@
-import Edituser from "../../../Components/Editturret";
+import Edituser from "../../../Components/Edituser";
 
 export function AdminAccountEdit() {
   return (
     <>
-      <Editturret />
+      <Edituser />
     </>
   );
 }

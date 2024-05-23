@@ -114,7 +114,10 @@ const Tableturret = () => {
                   </td>
                   <td className="border border-[#697077] px-4 py-2 text-center align-middle">
                     <img
-                      src={turret.turret_image}
+                      src={
+                        "http://127.0.0.1:8000/storage/turrets/" +
+                        turret.turret_image
+                      }
                       alt={`Turret Image ${turret.id_turret}`}
                       className="h-20 w-20 object-cover"
                     />

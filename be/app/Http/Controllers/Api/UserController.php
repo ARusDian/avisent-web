@@ -50,7 +50,7 @@ class UserController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'name' => 'required|string|unique:users',
-            'password' => 'required|min:8',
+            // 'password' => 'required|min:8',
             'type' => 'required|numeric',
         ]);
 
@@ -61,7 +61,7 @@ class UserController extends Controller
         $user = User::findOrFail($id);
         $user->update([
             'name'     => $request->name,
-            'password'     => Hash::make($request->password),
+            // 'password'     => Hash::make($request->password),
             'type'   => $request->type,
         ]);
 

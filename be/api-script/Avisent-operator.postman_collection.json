@@ -10,26 +10,6 @@
 			"name": "Login Operator",
 			"event": [
 				{
-					"listen": "test",
-					"script": {
-						"exec": [
-							"pm.test(\"Status code is 200\", function () {\r",
-							"    pm.response.to.have.status(200);\r",
-							"});\r",
-							"\r",
-							"pm.test(\"Response contains token\", function () {\r",
-							"    pm.expect(pm.response.json()).to.have.property(\"token\");\r",
-							"});\r",
-							"\r",
-							"var jsonData = pm.response.json();\r",
-							"var token = jsonData.token;\r",
-							"pm.environment.set(\"operatorToken\", token);"
-						],
-						"type": "text/javascript",
-						"packages": {}
-					}
-				},
-				{
 					"listen": "prerequest",
 					"script": {
 						"exec": [
@@ -46,6 +26,26 @@
 							"    mode: 'urlencoded',\r",
 							"    urlencoded: formDataString\r",
 							"};"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Response contains token\", function () {\r",
+							"    pm.expect(pm.response.json()).to.have.property(\"token\");\r",
+							"});\r",
+							"\r",
+							"var jsonData = pm.response.json();\r",
+							"var token = jsonData.token;\r",
+							"pm.environment.set(\"operatorToken\", token);"
 						],
 						"type": "text/javascript",
 						"packages": {}
@@ -161,6 +161,44 @@
 					"path": [
 						"api",
 						"turrets"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Turrets - Get turret by id",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"const bearerToken = pm.environment.get(\"operatorToken\");\r",
+							"\r",
+							"pm.request.headers.add({\r",
+							"    key: \"Authorization\",\r",
+							"    value: `Bearer ${bearerToken}`\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8000/api/turrets/2",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"turrets",
+						"2"
 					]
 				}
 			},
@@ -587,16 +625,6 @@
 				}
 			],
 			"request": {
-				"auth": {
-					"type": "bearer",
-					"bearer": [
-						{
-							"key": "token",
-							"value": "4RYUxYKs2WMYKZkgVl8z8qI4Ed0Ny196hHYjQn3Q1396a2fb",
-							"type": "string"
-						}
-					]
-				},
 				"method": "POST",
 				"header": [],
 				"body": {

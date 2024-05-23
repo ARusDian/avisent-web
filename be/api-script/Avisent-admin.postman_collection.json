@@ -152,8 +152,75 @@
 			"response": []
 		},
 		{
+			"name": "Users - Get user by id",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"const bearerToken = pm.environment.get(\"adminToken\");\r",
+							"\r",
+							"pm.request.headers.add({\r",
+							"    key: \"Authorization\",\r",
+							"    value: `Bearer ${bearerToken}`\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8000/api/users/2",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"users",
+						"2"
+					]
+				}
+			},
+			"response": []
+		},
+		{
 			"name": "Users - Create new user (admin)",
 			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"const bearerToken = pm.environment.get(\"adminToken\");\r",
+							"pm.request.headers.add({\r",
+							"    key: \"Authorization\",\r",
+							"    value: `Bearer ${bearerToken}`\r",
+							"});\r",
+							"\r",
+							"const formData = {\r",
+							"    name: \"operator-barus\",\r",
+							"    password: \"12121212\",\r",
+							"    type: 1,\r",
+							"};\r",
+							"\r",
+							"const formDataString = Object.keys(formData).map(key => {\r",
+							"    return `${encodeURIComponent(key)}=${encodeURIComponent(formData[key])}`;\r",
+							"}).join('&');\r",
+							"\r",
+							"pm.request.body = {\r",
+							"    mode: 'urlencoded',\r",
+							"    urlencoded: formDataString\r",
+							"};"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				},
 				{
 					"listen": "test",
 					"script": {
@@ -186,35 +253,6 @@
 							"});\r",
 							"\r",
 							""
-						],
-						"type": "text/javascript",
-						"packages": {}
-					}
-				},
-				{
-					"listen": "prerequest",
-					"script": {
-						"exec": [
-							"const bearerToken = pm.environment.get(\"adminToken\");\r",
-							"pm.request.headers.add({\r",
-							"    key: \"Authorization\",\r",
-							"    value: `Bearer ${bearerToken}`\r",
-							"});\r",
-							"\r",
-							"const formData = {\r",
-							"    name: \"operator-baru\",\r",
-							"    password: \"12121212\",\r",
-							"    type: 1,\r",
-							"};\r",
-							"\r",
-							"const formDataString = Object.keys(formData).map(key => {\r",
-							"    return `${encodeURIComponent(key)}=${encodeURIComponent(formData[key])}`;\r",
-							"}).join('&');\r",
-							"\r",
-							"pm.request.body = {\r",
-							"    mode: 'urlencoded',\r",
-							"    urlencoded: formDataString\r",
-							"};"
 						],
 						"type": "text/javascript",
 						"packages": {}
@@ -310,9 +348,9 @@
 							"\r",
 							"const formData = {\r",
 							"    _method: \"PUT\",\r",
-							"    name: \"operator-baru-jadi-admin\",\r",
-							"    password: \"13131313\",\r",
-							"    type: 3,\r",
+							"    name: \"operators\",\r",
+							"    password: \"12121212\",\r",
+							"    type: 1,\r",
 							"};\r",
 							"\r",
 							"const formDataString = Object.keys(formData).map(key => {\r",
@@ -337,7 +375,7 @@
 					"formdata": []
 				},
 				"url": {
-					"raw": "localhost:8000/api/users/4",
+					"raw": "localhost:8000/api/users/2",
 					"host": [
 						"localhost"
 					],
@@ -345,7 +383,7 @@
 					"path": [
 						"api",
 						"users",
-						"4"
+						"2"
 					]
 				}
 			},

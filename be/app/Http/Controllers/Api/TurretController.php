@@ -61,6 +61,21 @@ class TurretController extends Controller
         return new TurretResource(true, 'Turret data added successfully', $turret);
     }
 
+    public function show($id)
+    {
+        $turret = Turret::with('file')->findOrFail($id);
+
+        $formattedturret =  [
+                'id_turret' => $turret->id_turret,
+                'turret_image' => $turret->file->path,
+                'description' => $turret->description,
+                'secret_key' => $turret->secret_key,
+                'location' => $turret->location,
+            ];
+
+        return new TurretResource(true, 'Turret info', $formattedturret);
+    }
+
     public function update(Request $request, $id)
     {
         $validator = Validator::make($request->all(), [

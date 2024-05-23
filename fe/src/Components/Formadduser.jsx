@@ -37,60 +37,33 @@ const Formadduser = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // Validasi checkbox
-    if (!formData.operator && !formData.admin) {
-      setErrors({ checkbox: "Please select at least one option" });
-      return;
-    }
+    const token = localStorage.getItem("token");
 
-    setSubmitting(true);
-
-    const accessToken = localStorage.getItem("token");
-
-    // Konversi formData menjadi format URL-encoded
-    const formDataString = Object.keys(formData)
-      .map((key) => {
-        return `${encodeURIComponent(key)}=${encodeURIComponent(
-          formData[key]
-        )}`;
-      })
-      .join("&");
+    const formDataToSend = new FormData();
+    formDataToSend.append("turretImage", formData.turretImage);
+    formDataToSend.append("description", formData.description);
+    formDataToSend.append("location", formData.location);
 
     try {
       const response = await axios.post(
-        "http://127.0.0.1:8000/api/users",
-        formDataString,
+        "http://localhost:8000/api/turrets",
+        formDataToSend,
         {
           headers: {
-            Authorization: `Bearer ${accessToken}`,
-            "Content-Type": "application/x-www-form-urlencoded",
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "multipart/form-data",
           },
         }
       );
-      console.log("Response:", response.data);
 
-      setFormData({
-        user: "",
-        name: "",
-        password: "",
-        operator: false,
-        admin: false,
-        type: 0,
-      });
-
-      navigate("/admin/account");
-    } catch (error) {
-      if (error.response) {
-        console.error("Error response:", error.response.data);
-        setErrors(error.response.data);
-      } else if (error.request) {
-        console.error("Error request:", error.request);
+      if (response.status === 201) {
+        console.log("Success to add turret");
+        navigate("/operator/turret");
       } else {
-        console.error("Error message:", error.message);
+        console.error("Failed to add turret");
       }
-      console.error("There was an error posting the data!", error);
-    } finally {
-      setSubmitting(false);
+    } catch (error) {
+      console.error("Error:", error);
     }
   };
 

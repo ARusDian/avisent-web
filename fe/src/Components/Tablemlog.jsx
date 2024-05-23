@@ -1,13 +1,18 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 
-const Tablelog = () => {
+const Tablemlog = () => {
   const [logs, setLogs] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
 
   const fetchLogs = async () => {
     try {
-      const response = await axios.get("http://localhost:8000/api/logs");
+      const token = localStorage.getItem("token");
+      const response = await axios.get("http://localhost:8000/api/mlogs", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
       if (response.data && response.data.success) {
         setLogs(response.data.data);
       }
@@ -36,45 +41,35 @@ const Tablelog = () => {
           <thead>
             <tr>
               <th className="bg-[#697077] text-white border border-black font-roboto px-20 py-2 rounded-tl-xl">
-                Id Log
+                Operator Name
               </th>
               <th className="bg-[#697077] text-white border border-black font-roboto px-20 py-2">
                 ID Turret
               </th>
               <th className="bg-[#697077] text-white border border-black font-roboto px-20 py-2">
-                Image
+                Start Date
               </th>
               <th className="bg-[#697077] text-white border border-black font-roboto px-20 py-2">
-                Location
-              </th>
-              <th className="bg-[#697077] text-white border border-black font-roboto px-20 py-2">
-                Object
-              </th>
-              <th className="bg-[#697077] text-white border border-black font-roboto px-20 py-2">
-                Shoot Date
+                End Date
               </th>
             </tr>
           </thead>
           <tbody>
             {currentItems.map((log, index) => (
               <tr key={index}>
-                <td className="border border-[#697077] px-28 py-5">
-                  {log.id_log}
+                <td className="border border-[#697077] px-28 py-5 ">
+                  {" "}
+                  {log.user_name}{" "}
                 </td>
-                <td className="border border-[#697077] px-28 py-5">
-                  {log.turret_id}
-                </td>
-                <td className="border border-[#697077] px-20 py-5">
-                  {log.image_id}
-                </td>
-                <td className="border border-[#697077] px-20 py-5">
-                  {log.location}
+                <td className="border border-[#697077] px-28 py-5 ">
+                  {" "}
+                  {log.id_turret}{" "}
                 </td>
                 <td className="border border-[#697077] px-20 py-5">
-                  {log.object_type}
+                  {log.start_date}{" "}
                 </td>
                 <td className="border border-[#697077] px-20 py-5">
-                  {log.shot_date}
+                  {log.end_date}
                 </td>
               </tr>
             ))}
@@ -113,4 +108,4 @@ const Tablelog = () => {
   );
 };
 
-export default Tablelog;
+export default Tablemlog;

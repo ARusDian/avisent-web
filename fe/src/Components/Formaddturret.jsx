@@ -1,54 +1,67 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
 const Formaddturret = () => {
-  // State untuk menyimpan data dari formulir
   const [formData, setFormData] = useState({
-    user: "",
-    turret: "",
-    startDate: "",
-    endDate: "",
+    path: null, // Mengganti turretImage menjadi path
+    description: "",
+    location: "",
+    secretKey: "",
   });
 
-  // State untuk daftar turrets
-  const [turrets, setTurrets] = useState([]);
-
-  // Mendapatkan fungsi navigasi
   const navigate = useNavigate();
 
   const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData({
-      ...formData,
-      [name]: value,
-    });
+    const { name, value, files } = e.target;
+    if (name === "path") {
+      // Menggunakan "path" sebagai name
+      setFormData({
+        ...formData,
+        path: files[0], // Menggunakan files[0] sebagai nilai untuk "path"
+      });
+    } else {
+      setFormData({
+        ...formData,
+        [name]: value,
+      });
+    }
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // Tambahkan data baru ke daftar turrets
-    setTurrets([
-      ...turrets,
-      {
-        user: formData.user,
-        turret: formData.turret,
-        startDate: formData.startDate,
-        endDate: formData.endDate,
-      },
-    ]);
+    const token = localStorage.getItem("token");
 
-    // Reset formulir
-    setFormData({
-      user: "",
-      turret: "",
-      startDate: "",
-      endDate: "",
-    });
+    const formDataToSend = new FormData();
+    formDataToSend.append("path", formData.path); // Menggunakan "path" sebagai kunci
+    formDataToSend.append("description", formData.description);
+    formDataToSend.append("location", formData.location);
+    formDataToSend.append("secret_key", formData.secretKey);
 
-    // Arahkan ke halaman /addturret
-    navigate("/addturret");
+    try {
+      const response = await axios.post(
+        "http://localhost:8000/api/turrets",
+        formDataToSend,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
+
+      if (response.status === 201) {
+        console.log("Success to add turret");
+        navigate("/operator/turret");
+      } else {
+        console.error("Failed to add turret");
+      }
+    } catch (error) {
+      console.error("Error:", error);
+    }
   };
+
   return (
     <div className="flex justify-center items-center min-h-screen bg-gray-100">
       <form
@@ -57,74 +70,81 @@ const Formaddturret = () => {
       >
         <h2 className="text-2xl font-bold mb-6 text-center">Add New Turret</h2>
 
-        {/* Input untuk User */}
         <div className="mb-4 flex justify-center">
           <div className="w-96">
             <label
               className="block text-gray-700 text-sm font-bold mb-2"
-              htmlFor="user"
+              htmlFor="path" // Menggunakan "path" sebagai htmlFor
             >
-              User
+              Turret Image (Path)
             </label>
             <input
-              type="text"
-              name="user" // Properti `name` yang benar
-              placeholder="Add User"
+              type="file"
+              name="path" // Menggunakan "path" sebagai name
+              accept="image/*"
               className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-              value={formData.user}
               onChange={handleChange}
             />
           </div>
         </div>
 
-        {/* Input untuk Turret */}
         <div className="mb-4 flex justify-center mt-5">
           <div className="w-96">
             <label
               className="block text-gray-700 text-sm font-bold mb-2"
-              htmlFor="turret"
+              htmlFor="description"
             >
-              Turret
+              Description
             </label>
             <input
               type="text"
-              name="turret" // Properti `name` yang benar
-              placeholder="Add Turret"
+              name="description"
+              placeholder="Enter Description"
               className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-              value={formData.turret}
+              value={formData.description}
               onChange={handleChange}
             />
           </div>
         </div>
 
-        <div className="mb-4 w-full mt-8">
-          <label
-            className="block text-gray-700 text-sm font-bold mb-2 ml-20"
-            htmlFor="dateRange"
-          >
-            Date
-          </label>
-          <div className="flex items-center justify-center">
-            {" "}
+        <div className="mb-4 flex justify-center mt-5">
+          <div className="w-96">
+            <label
+              className="block text-gray-700 text-sm font-bold mb-2"
+              htmlFor="secretKey"
+            >
+              Secret Key
+            </label>
             <input
-              type="date"
-              name="startDate"
-              className="shadow appearance-none border rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline w-1/3"
-              value={formData.startDate}
-              onChange={handleChange}
-            />
-            <span className="mx-2">-</span>
-            <input
-              type="date"
-              name="endDate"
-              className="shadow appearance-none border rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline w-1/3"
-              value={formData.endDate}
+              type="text"
+              name="secretKey"
+              placeholder="Enter Secret Key"
+              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+              value={formData.secretKey}
               onChange={handleChange}
             />
           </div>
         </div>
 
-        {/* Tombol Add */}
+        <div className="mb-4 flex justify-center mt-5">
+          <div className="w-96">
+            <label
+              className="block text-gray-700 text-sm font-bold mb-2"
+              htmlFor="location"
+            >
+              Location
+            </label>
+            <input
+              type="text"
+              name="location"
+              placeholder="Enter Location"
+              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+              value={formData.location}
+              onChange={handleChange}
+            />
+          </div>
+        </div>
+
         <div className="text-center mt-10">
           <button
             type="submit"

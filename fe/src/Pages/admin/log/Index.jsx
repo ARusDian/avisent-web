@@ -1,9 +1,9 @@
-import Tablelog from "./../../../Components/Tablelog";
+import Tablemlog from "./../../../Components/Tablemlog";
 
 export function AdminLog() {
   return (
     <>
-      <Tablelog />
+      <Tablemlog />
     </>
   );
 }

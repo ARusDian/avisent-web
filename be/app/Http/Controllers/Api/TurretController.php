@@ -134,3 +134,4 @@ class TurretController extends Controller
         return new TurretResource(true, 'Turret data deleted successfully', $turret);
     }
 }
+ 

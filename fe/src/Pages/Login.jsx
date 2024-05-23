@@ -13,7 +13,13 @@ const Login = () => {
   useEffect(() => {
     const localToken = localStorage.getItem("token");
     if (localToken) {
-      navigate("/admin/home");
+      // Periksa role pengguna yang sudah tersimpan
+      const role = localStorage.getItem("role");
+      if (role === "Admin") {
+        navigate("/admin/home");
+      } else if (role === "Operator") {
+        navigate("/operator/home");
+      }
     }
   }, [navigate]);
 
@@ -24,14 +30,19 @@ const Login = () => {
         name: values.name,
         password: values.password,
       });
-      if (res.data.token) {
-        localStorage.setItem("token", res.data.token);
-        localStorage.setItem("role", res.data.role);
-        toast.success(`Login successful! Welcome, ${res.data.role}`);
-        if (res.data.role === "admin") {
+      const data = res.data;
+      if (data.token) {
+        localStorage.setItem("token", data.token);
+        localStorage.setItem("role", data.user_type); // Simpan 'user_type' sebagai 'role'
+        toast.success(`Login successful! Welcome, ${data.user_type}`);
+
+        // Navigasi berdasarkan tipe pengguna
+        if (data.user_type === "Admin") {
           navigate("/admin/home");
+        } else if (data.user_type === "Operator") {
+          navigate("/operator/home");
         } else {
-          navigate("/admin/home");
+          setError("Login failed. User type is not recognized.");
         }
       } else {
         setError("Login failed. Please check your name and password.");
@@ -85,7 +96,7 @@ const Login = () => {
 
           <button
             type="submit"
-            className=" flex flex-col my-4 text-white bg-[#697077] rounded-md p-4 text-center items-center justify-center hover:bg-[#46423c]"
+            className="flex my-4 text-white bg-[#697077] rounded-md p-4 text-center items-center justify-center hover:bg-[#46423c]"
           >
             Login
           </button>

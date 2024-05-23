@@ -30,9 +30,12 @@ class AuthController extends Controller
         } else {
             $user   = User::where('name', $request->name)->firstOrFail();
             $token  = $user->createToken('auth_token')->plainTextToken;
+            $type = $user->type;
 
             return response()->json([
                 'message' => 'Login success',
+                'type_id' => $type,
+                'user_type' => $type == 1 ? 'Operator' : ($type == 3 ? 'Admin' : 'Unknown'),
                 'token' => $token,
             ]);
         }

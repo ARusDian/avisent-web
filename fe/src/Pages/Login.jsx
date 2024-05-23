@@ -29,9 +29,9 @@ const Login = () => {
         localStorage.setItem("role", res.data.role);
         toast.success(`Login successful! Welcome, ${res.data.role}`);
         if (res.data.role === "admin") {
-          navigate("/home");
+          navigate("/admin/home");
         } else {
-          navigate("/home");
+          navigate("/admin/home");
         }
       } else {
         setError("Login failed. Please check your name and password.");

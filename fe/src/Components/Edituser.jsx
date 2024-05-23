@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate, useLocation } from "react-router-dom";
+import { useNavigate, useLocation, Link } from "react-router-dom";
 import axios from "axios";
 
 const Edituser = () => {
@@ -9,8 +9,10 @@ const Edituser = () => {
   const [formData, setFormData] = useState({
     name: "",
     role: "",
+    password: "", // Initialize the password field here
   });
 
+  const [originalPassword, setOriginalPassword] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
@@ -29,9 +31,10 @@ const Edituser = () => {
           const user = response.data.data;
           setFormData({
             name: user.name,
-            password: user.password,
             role: user.type === 1 ? "operator" : user.type === 3 ? "admin" : "",
+            password: "", // Clear the password field here
           });
+          setOriginalPassword(user.password); // Store the original password
         } else {
           console.error("Gagal mengambil data pengguna", response.data);
           setError("Failed to fetch user");
@@ -76,11 +79,8 @@ const Edituser = () => {
       const payload = {
         name: formData.name,
         type: userType,
+        password: formData.password || originalPassword, // Use the original password if not changed
       };
-
-      if (formData.password !== user.password) {
-        payload.password = formData.password;
-      }
 
       const response = await axios.put(
         `http://127.0.0.1:8000/api/users/${userId}`,
@@ -94,7 +94,7 @@ const Edituser = () => {
 
       if (response.status === 200) {
         console.log("User updated successfully");
-        navigate("/Addaccount");
+        navigate("/admin/account");
       } else {
         console.error("Failed to update user");
         setError("Nothing Change");
@@ -102,7 +102,9 @@ const Edituser = () => {
     } catch (error) {
       console.error("Nothing Change:", error);
       if (error.response && error.response.status === 422) {
-        setError("Nothing Change");
+        setError(
+          "Error: " + (error.response.data.message || "Unprocessable Entity")
+        );
       } else {
         setError("Nothing Change");
       }
@@ -163,12 +165,13 @@ const Edituser = () => {
           </label>
         </div>
 
-        <a
+        <Link
+          to="/admin/account/change-password"
+          state={{ userId: userId }}
           className="text-blue-400 hover:text-blue-700"
-          href="/admin/account/change-password"
         >
           Change Password
-        </a>
+        </Link>
 
         {error && <div className="text-red-500 text-center mb-4">{error}</div>}
 

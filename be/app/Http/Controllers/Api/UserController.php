@@ -42,8 +42,8 @@ class UserController extends Controller
     public function show($id)
     {
         $user = User::findOrFail($id);
-        
-        return new UserResource(true, 'User data deleted successfully', $user);
+
+        return new UserResource(true, 'User info', $user);
     }
 
     public function update(Request $request, $id)

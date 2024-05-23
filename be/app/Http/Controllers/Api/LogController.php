@@ -13,9 +13,20 @@ class LogController extends Controller
 {
     public function index()
     {
-        $log = Log::orderBy('id_log')->get();
+        $log = Log::with('file')->orderBy('id_log')->get();
 
-        return new LogResource(true, 'Log list', $log);
+        $formattedlog = $log->map(function($log) {
+            return [
+                'id_log' => $log->id_log,
+                'turret_id' => $log->turret_id,
+                'image' => $log->file->path,
+                'location' => $log->location,
+                'object_type' => $log->object_type,
+                'shot_date' => $log->shot_date,
+            ];
+        });
+
+        return new LogResource(true, 'Log list', $formattedlog);
     }
 
     public function store(Request $request)

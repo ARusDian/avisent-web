@@ -1,39 +1,51 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Login from "./Pages/Login";
-import Home from "./Pages/Home";
-import Log from "./Pages/Log";
-import Addturret from "./Pages/Addturret";
-import Addaccount from "./Pages/Addaccount";
 import Index from "./Pages/Index";
-import Formturret from "./Pages/Formturret";
-import Formeditturret from "./Pages/Formeditturret";
-import Formuser from "./Pages/Formuser";
-import Formedituser from "./Pages/Formedituser";
+import { OperatorHome } from "./Pages/operator/home/Index";
+import { OperatorLog } from "./Pages/operator/log/Index";
+import { AdminLayout } from "./Components/layout/AdminLayout";
+import { OperatorLayout } from "./Components/layout/OperatorLayout";
+import { OperatorTurret } from "./Pages/operator/turret/Index";
+import { OperatorTurretCreate } from "./Pages/operator/turret/Create";
+import { OperatorTurretEdit } from "./Pages/operator/turret/Edit";
+import { AdminHome } from "./Pages/admin/home/Index";
+import { AdminLog } from "./Pages/admin/log/Index";
+import { AdminAccount } from "./Pages/admin/account/Index";
+import { AdminAccountCreate } from "./Pages/admin/account/Create";
+import { AdminAccountEdit } from "./Pages/admin/account/Edit";
+import { AdminAccountChangePassword } from "./Pages/admin/account/change-password/Index";
+import { AdminSpecification } from "./Pages/admin/specification/Index";
 
 const App = () => {
   return (
     <BrowserRouter>
       <Routes>
+        {/* Route Public */}
         <Route path="/" element={<Index />} />
         <Route path="/login" element={<Login />} />
-        <Route path="/home" element={<Home />} />
-        <Route path="/log" element={<Log />} />
-        <Route path="/addturret" element={<Addturret />} />
-        <Route path="/addaccount" element={<Addaccount />} />
-        <Route path="/formturret" element={<Formturret />} />
-        <Route path="/formeditturret" element={<Formeditturret />} />
-        <Route path="/formuser" element={<Formuser />} />
-        <Route path="/formedituser" element={<Formedituser />} />
 
-        {/* <Route index element={<Home />} />
-          <Route path="blogs" element={<Blogs />} />
-          <Route path="contact" element={<Contact />} />
-          <Route path="*" element={<NoPage />} /> */}
-        {/* <Route path="/turret" element={<Layout />}>
-          <Route index element={<IndexTurret />} />
-          <Route path="/create" element={<CreateTurret />} />
-          <Route path="/edit/:id" element={<EditTurret />} />
-        </Route> */}
+        {/* Route Admin */}
+        <Route path="admin" element={<AdminLayout />}>
+          <Route path="home" element={<AdminHome />} />
+          <Route path="log" element={<AdminLog />} />
+          <Route path="account" element={<AdminAccount />} />
+          <Route path="specification" element={<AdminSpecification />} />
+          <Route
+            path="account/change-password"
+            element={<AdminAccountChangePassword />}
+          />
+          <Route path="account/create" element={<AdminAccountCreate />} />
+          <Route path="account/edit" element={<AdminAccountEdit />} />
+        </Route>
+
+        {/* Route Operator */}
+        <Route path="operator" element={<OperatorLayout />}>
+          <Route path="home" element={<OperatorHome />} />
+          <Route path="log" element={<OperatorLog />} />
+          <Route path="turret" element={<OperatorTurret />} />
+          <Route path="turret/create" element={<OperatorTurretCreate />} />
+          <Route path="turret/edit" element={<OperatorTurretEdit />} />
+        </Route>
       </Routes>
     </BrowserRouter>
   );

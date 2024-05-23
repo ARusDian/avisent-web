@@ -1,7 +1,9 @@
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { useState, useEffect } from "react";
-import COVER_IMAGE from "../assets/turetgun.jpg";
 import axios from "axios";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import COVER_IMAGE from "../assets/turetgun.jpg";
 
 const Login = () => {
   const [values, setValues] = useState({ name: "", password: "" });
@@ -11,7 +13,7 @@ const Login = () => {
   useEffect(() => {
     const localToken = localStorage.getItem("token");
     if (localToken) {
-      navigate("/home");
+      navigate("/admin/home");
     }
   }, [navigate]);
 
@@ -24,7 +26,13 @@ const Login = () => {
       });
       if (res.data.token) {
         localStorage.setItem("token", res.data.token);
-        navigate("/home");
+        localStorage.setItem("role", res.data.role);
+        toast.success(`Login successful! Welcome, ${res.data.role}`);
+        if (res.data.role === "admin") {
+          navigate("/home");
+        } else {
+          navigate("/home");
+        }
       } else {
         setError("Login failed. Please check your name and password.");
       }
@@ -82,6 +90,7 @@ const Login = () => {
             Login
           </button>
         </form>
+        <ToastContainer />
       </div>
     </div>
   );

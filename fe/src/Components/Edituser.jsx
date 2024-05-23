@@ -8,7 +8,6 @@ const Edituser = () => {
 
   const [formData, setFormData] = useState({
     name: "",
-    password: "******",
     role: "",
   });
 
@@ -30,7 +29,7 @@ const Edituser = () => {
           const user = response.data.data;
           setFormData({
             name: user.name,
-            password: "******",
+            password: user.password,
             role: user.type === 1 ? "operator" : user.type === 3 ? "admin" : "",
           });
         } else {
@@ -79,7 +78,7 @@ const Edituser = () => {
         type: userType,
       };
 
-      if (formData.password !== "******") {
+      if (formData.password !== user.password) {
         payload.password = formData.password;
       }
 
@@ -101,11 +100,11 @@ const Edituser = () => {
         setError("Nothing Change");
       }
     } catch (error) {
-      console.error("Error updating user:", error);
+      console.error("Nothing Change:", error);
       if (error.response && error.response.status === 422) {
         setError("Nothing Change");
       } else {
-        setError("Error updating user");
+        setError("Nothing Change");
       }
     }
   };
@@ -120,7 +119,7 @@ const Edituser = () => {
         className="bg-white p-8 rounded-3xl shadow-lg w-2/5"
         onSubmit={handleSubmit}
       >
-        <h2 className="text-2xl font-bold mb-6 text-center">Edit User</h2>
+        <h2 className="text-2xl font-bold mb-6 text-center">Edit Account</h2>
 
         <div className="mb-4">
           <label
@@ -135,23 +134,6 @@ const Edituser = () => {
             placeholder="Enter Name"
             className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
             value={formData.name}
-            onChange={handleChange}
-          />
-        </div>
-
-        <div className="mb-4">
-          <label
-            className="block text-gray-700 text-sm font-bold mb-2"
-            htmlFor="password"
-          >
-            Password
-          </label>
-          <input
-            type="password"
-            name="password"
-            placeholder="Enter Password"
-            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-            value={formData.password}
             onChange={handleChange}
           />
         </div>
@@ -180,6 +162,13 @@ const Edituser = () => {
             <span className="ml-2 text-gray-700">Admin</span>
           </label>
         </div>
+
+        <a
+          className="text-blue-400 hover:text-blue-700"
+          href="/admin/account/change-password"
+        >
+          Change Password
+        </a>
 
         {error && <div className="text-red-500 text-center mb-4">{error}</div>}
 

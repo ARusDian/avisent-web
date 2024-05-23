@@ -1,10 +1,10 @@
 import { useNavigate } from "react-router-dom";
 import { NavLink } from "react-router-dom";
-import logo from "../assets/logo.png";
-import profile from "../assets/profile.png";
+import logo from "./../../assets/logo.png";
+import profile from "./../../assets/profile.png";
 import axios from "axios";
 
-const Navbar = () => {
+export function NavbarAdmin() {
   const navigate = useNavigate();
 
   const handleLogout = async () => {
@@ -58,7 +58,7 @@ const Navbar = () => {
           className={({ isActive }) =>
             isActive ? "font-bold text-[#f8dbb3]" : undefined
           }
-          to={"/home"}
+          to={"/admin/home"}
         >
           Home
         </NavLink>
@@ -66,7 +66,7 @@ const Navbar = () => {
           className={({ isActive }) =>
             isActive ? "font-bold text-[#f8dbb3]" : undefined
           }
-          to={"/home"}
+          to={"/admin/specification"}
         >
           Spesification
         </NavLink>
@@ -74,7 +74,7 @@ const Navbar = () => {
           className={({ isActive }) =>
             isActive ? "font-bold text-[#f8dbb3]" : undefined
           }
-          to={"/log"}
+          to={"/admin/log"}
         >
           Log
         </NavLink>
@@ -82,17 +82,9 @@ const Navbar = () => {
           className={({ isActive }) =>
             isActive ? "font-bold text-[#f8dbb3]" : undefined
           }
-          to={"/addturret"}
+          to={"/admin/account"}
         >
-          Add Turret
-        </NavLink>
-        <NavLink
-          className={({ isActive }) =>
-            isActive ? "font-bold text-[#f8dbb3]" : undefined
-          }
-          to={"/addaccount"}
-        >
-          Add Account
+          Account
         </NavLink>
       </div>
 
@@ -107,6 +99,4 @@ const Navbar = () => {
       </div>
     </nav>
   );
-};
-
-export default Navbar;
+}

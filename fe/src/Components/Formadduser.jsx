@@ -78,7 +78,7 @@ const Formadduser = () => {
         type: 0,
       });
 
-      navigate("/addaccount");
+      navigate("/admin/account");
     } catch (error) {
       if (error.response) {
         console.error("Error response:", error.response.data);

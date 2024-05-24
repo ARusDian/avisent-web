@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Outlet } from "react-router-dom";
 import Login from "./Pages/Login";
 import Index from "./Pages/Index";
 import { OperatorHome } from "./Pages/operator/home/Index";
@@ -15,6 +15,7 @@ import { AdminAccountCreate } from "./Pages/admin/account/Create";
 import { AdminAccountEdit } from "./Pages/admin/account/Edit";
 import { AdminAccountChangePassword } from "./Pages/admin/account/change-password/Index";
 import { AdminSpecification } from "./Pages/admin/specification/Index";
+import PrivateRoute from "./Components/PrivateRoute";
 
 const App = () => {
   return (
@@ -25,7 +26,14 @@ const App = () => {
         <Route path="/login" element={<Login />} />
 
         {/* Route Admin */}
-        <Route path="admin" element={<AdminLayout />}>
+        <Route
+          path="admin"
+          element={
+            <PrivateRoute element={() => <AdminLayout />}>
+              <Outlet />
+            </PrivateRoute>
+          }
+        >
           <Route path="home" element={<AdminHome />} />
           <Route path="log" element={<AdminLog />} />
           <Route path="account" element={<AdminAccount />} />
@@ -39,7 +47,14 @@ const App = () => {
         </Route>
 
         {/* Route Operator */}
-        <Route path="operator" element={<OperatorLayout />}>
+        <Route
+          path="operator"
+          element={
+            <PrivateRoute element={() => <OperatorLayout />}>
+              <Outlet />
+            </PrivateRoute>
+          }
+        >
           <Route path="home" element={<OperatorHome />} />
           <Route path="log" element={<OperatorLog />} />
           <Route path="turret" element={<OperatorTurret />} />

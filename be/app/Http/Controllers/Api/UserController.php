@@ -67,6 +67,25 @@ class UserController extends Controller
         return new UserResource(true, 'User data updated successfully', $user);
     }
 
+    public function pass_edit(Request $request, $id)
+    {
+        $user = User::findOrFail($id);
+
+        $validator = Validator::make($request->all(), [
+            'password' => 'required|min:8',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json($validator->errors(), 422);
+        }
+
+        $user->update([
+            'password'     => Hash::make($request->password),
+        ]);
+
+        return new UserResource(true, 'User password updated successfully', $user);
+    }
+
     public function destroy($id)
     {
         $user = User::findOrFail($id);

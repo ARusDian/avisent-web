@@ -30,4 +30,5 @@ Route::apiResource('logs', LogController::class);
 Route::middleware(['auth:sanctum', 'user-access:3'])->group( function () {
     Route::apiResource('users', UserController::class);
     Route::get('mlogs', [ManualLogController::class, 'index']);
+    Route::put('users/password/{id_user}', [UserController::class, 'pass_edit']);
 });

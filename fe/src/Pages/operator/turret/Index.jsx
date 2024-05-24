@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 
 export function OperatorTurret() {
@@ -38,10 +38,6 @@ export function OperatorTurret() {
 
   const handleAddClick = () => {
     navigate("/operator/turret/create");
-  };
-
-  const handleEdit = (id) => {
-    navigate(`/operator/turret/edit`);
   };
 
   const handleDelete = async (id) => {
@@ -129,12 +125,12 @@ export function OperatorTurret() {
                     {turret.location}
                   </td>
                   <td className="border border-[#697077] px-10 py-2 text-center align-middle">
-                    <button
-                      className="bg-blue-500 text-white px-2 py-1 hover:bg-blue-700 w-full rounded-xl shadow-lg"
-                      onClick={() => handleEdit(turret.id_turret)}
+                    <Link
+                      className="inline-block w-full bg-blue-500 text-white px-2 py-1 hover:bg-blue-700 rounded-xl shadow-lg"
+                      to={`/operator/turret/${turret.id_turret}/edit`}
                     >
                       Edit
-                    </button>
+                    </Link>
                     <button
                       className="bg-red-500 text-white px-2 py-1 hover:bg-red-700 w-full rounded-xl shadow-lg mt-2"
                       onClick={() => handleDelete(turret.id_turret)}

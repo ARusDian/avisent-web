@@ -1,4 +1,8 @@
+import { useParams } from "react-router-dom";
+
 export function AdminAccountChangePassword() {
+  const { id } = useParams();
+
   return (
     <div className="flex justify-center items-center min-h-screen bg-gray-100">
       <form className="bg-white p-8 rounded-3xl shadow-lg w-2/5">

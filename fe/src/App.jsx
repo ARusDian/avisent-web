@@ -14,7 +14,7 @@ import { AdminAccount } from "./Pages/admin/account/Index";
 import { AdminAccountCreate } from "./Pages/admin/account/Create";
 import { AdminAccountEdit } from "./Pages/admin/account/Edit";
 import { AdminAccountChangePassword } from "./Pages/admin/account/change-password/Index";
-import { AdminSpecification } from "./Pages/admin/specification/Index";
+import { SpecificationHome } from "./Pages/admin/specification/SpecificationHome";
 import PrivateRoute from "./Components/PrivateRoute";
 
 const App = () => {
@@ -37,13 +37,13 @@ const App = () => {
           <Route path="home" element={<AdminHome />} />
           <Route path="log" element={<AdminLog />} />
           <Route path="account" element={<AdminAccount />} />
-          <Route path="specification" element={<AdminSpecification />} />
+          <Route path="specification" element={<SpecificationHome />} />
+          <Route path="account/create" element={<AdminAccountCreate />} />
+          <Route path="account/:id/edit" element={<AdminAccountEdit />} />
           <Route
-            path="account/change-password"
+            path="account/:id/change-password"
             element={<AdminAccountChangePassword />}
           />
-          <Route path="account/create" element={<AdminAccountCreate />} />
-          <Route path="account/edit" element={<AdminAccountEdit />} />
         </Route>
 
         {/* Route Operator */}
@@ -59,7 +59,7 @@ const App = () => {
           <Route path="log" element={<OperatorLog />} />
           <Route path="turret" element={<OperatorTurret />} />
           <Route path="turret/create" element={<OperatorTurretCreate />} />
-          <Route path="turret/edit" element={<OperatorTurretEdit />} />
+          <Route path="turret/:id/edit" element={<OperatorTurretEdit />} />
         </Route>
       </Routes>
     </BrowserRouter>

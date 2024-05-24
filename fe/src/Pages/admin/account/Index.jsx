@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 
 export function AdminAccount() {
@@ -115,16 +115,12 @@ export function AdminAccount() {
                     {account.type}
                   </td>
                   <td className="border border-[#697077] px-4 py-2 flex justify-center items-center space-x-2">
-                    <button
-                      className="bg-blue-500 text-white px-2 py-1 hover:bg-blue-700 w-full rounded-xl shadow-lg"
-                      onClick={() =>
-                        navigate("/admin/account/edit", {
-                          state: { userId: account.id },
-                        })
-                      }
+                    <Link
+                      className="bg-blue-500 text-center text-white px-2 py-1 hover:bg-blue-700 w-full rounded-xl shadow-lg"
+                      to={`/admin/account/${account.id}/edit`}
                     >
                       Edit
-                    </button>
+                    </Link>
                     <button
                       className="bg-red-500 text-white px-2 py-1 hover:bg-red-700 w-full rounded-xl shadow-lg"
                       onClick={() => handleDelete(account.id)}

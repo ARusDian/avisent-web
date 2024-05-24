@@ -11,14 +11,14 @@ export function OperatorTurretEdit() {
   });
 
   const navigate = useNavigate();
-  const { id_turret } = useParams(); // Menggunakan id_turret sebagai ID
+  const { id } = useParams();
 
   useEffect(() => {
     const fetchData = async () => {
       const token = localStorage.getItem("token");
       try {
         const response = await axios.get(
-          `http://localhost:8000/api/turrets/${id_turret}`, // Menggunakan id_turret sebagai ID dalam URL
+          `http://localhost:8000/api/turrets/${id}`, // Menggunakan id_turret sebagai ID dalam URL
           {
             headers: {
               Authorization: `Bearer ${token}`,
@@ -44,7 +44,7 @@ export function OperatorTurretEdit() {
     };
 
     fetchData();
-  }, [id_turret]); // Menggunakan id_turret sebagai dependency agar useEffect dipanggil setiap kali id_turret berubah
+  }, [id]); // Menggunakan id_turret sebagai dependency agar useEffect dipanggil setiap kali id_turret berubah
 
   const handleChange = (e) => {
     const { name, value, files } = e.target;
@@ -74,7 +74,7 @@ export function OperatorTurretEdit() {
 
     try {
       const response = await axios.put(
-        `http://localhost:8000/api/turrets/${id_turret}`, // Menggunakan id_turret sebagai ID dalam URL
+        `http://localhost:8000/api/turrets/${id}`, // Menggunakan id_turret sebagai ID dalam URL
         formDataToSend,
         {
           headers: {

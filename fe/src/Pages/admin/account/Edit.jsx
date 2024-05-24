@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate, useLocation, Link } from "react-router-dom";
+import { useNavigate, useLocation, Link, useParams } from "react-router-dom";
 import axios from "axios";
 
 export function AdminAccountEdit() {
   const location = useLocation();
-  const { userId } = location.state;
+  const { id } = useParams();
 
   const [formData, setFormData] = useState({
     name: "",
@@ -21,7 +21,7 @@ export function AdminAccountEdit() {
     const accessToken = localStorage.getItem("token");
 
     axios
-      .get(`http://127.0.0.1:8000/api/users/${userId}`, {
+      .get(`http://127.0.0.1:8000/api/users/${id}`, {
         headers: {
           Authorization: `Bearer ${accessToken}`,
         },
@@ -48,7 +48,7 @@ export function AdminAccountEdit() {
       .finally(() => {
         setLoading(false);
       });
-  }, [userId]);
+  }, [id]);
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
@@ -83,7 +83,7 @@ export function AdminAccountEdit() {
       };
 
       const response = await axios.put(
-        `http://127.0.0.1:8000/api/users/${userId}`,
+        `http://127.0.0.1:8000/api/users/${id}`,
         payload,
         {
           headers: {
@@ -166,8 +166,8 @@ export function AdminAccountEdit() {
         </div>
 
         <Link
-          to="/admin/account/change-password"
-          state={{ userId: userId }}
+          to={`/admin/account/${id}/change-password`}
+          // state={{ userId: userId }}
           className="text-blue-400 hover:text-blue-700"
         >
           Change Password

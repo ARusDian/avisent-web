@@ -40,7 +40,10 @@ class LogController extends Controller
         ]);
 
         if ($validator->fails()) {
-            return response()->json($validator->errors(), 422);
+            return response()->json([
+                'error' => True,
+                'message' => $validator->errors()
+            ],403);
         }
 
         $image = $request->file('path');

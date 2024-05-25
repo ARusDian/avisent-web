@@ -27,7 +27,10 @@ class UserController extends Controller
         ]);
 
         if ($validator->fails()) {
-            return response()->json($validator->errors(), 422);
+            return response()->json([
+                'error' => True,
+                'message' => $validator->errors()
+            ],403);
         }
 
         $user = User::create([
@@ -41,14 +44,28 @@ class UserController extends Controller
 
     public function show($id)
     {
-        $user = User::findOrFail($id);
+        $user = User::find($id);
+
+        if ($user == null){
+            return response()->json([
+                'error' => True,
+                'message' => 'That user does not exist',
+            ],404);
+        }
 
         return new UserResource(true, 'User info', $user);
     }
 
     public function update(Request $request, $id)
     {
-        $user = User::findOrFail($id);
+        $user = User::find($id);
+
+        if ($user == null){
+            return response()->json([
+                'error' => True,
+                'message' => 'That user does not exist',
+            ],404);
+        }
 
         $validator = Validator::make($request->all(), [
             'name' => 'required|string|unique:users,name,' . $user->id_user . ',id_user',
@@ -56,7 +73,10 @@ class UserController extends Controller
         ]);
 
         if ($validator->fails()) {
-            return response()->json($validator->errors(), 422);
+            return response()->json([
+                'error' => True,
+                'message' => $validator->errors()
+            ],403);
         }
 
         $user->update([
@@ -69,14 +89,24 @@ class UserController extends Controller
 
     public function pass_edit(Request $request, $id)
     {
-        $user = User::findOrFail($id);
+        $user = User::find($id);
+
+        if ($user == null){
+            return response()->json([
+                'error' => True,
+                'message' => 'That user does not exist',
+            ],404);
+        }
 
         $validator = Validator::make($request->all(), [
             'password' => 'required|min:8',
         ]);
 
         if ($validator->fails()) {
-            return response()->json($validator->errors(), 422);
+            return response()->json([
+                'error' => True,
+                'message' => $validator->errors()
+            ],403);
         }
 
         $user->update([
@@ -88,7 +118,15 @@ class UserController extends Controller
 
     public function destroy($id)
     {
-        $user = User::findOrFail($id);
+        $user = User::find($id);
+
+        if ($user == null){
+            return response()->json([
+                'error' => True,
+                'message' => 'That user does not exist',
+            ],404);
+        }
+
         $user->delete();
 
         return new UserResource(true, 'User data deleted successfully', $user);

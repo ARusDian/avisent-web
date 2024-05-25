@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id('id_turret');
             $table->tinyInteger('image_id');
             $table->text('description');
-            $table->string('secret_url');
+            $table->string('server_url');
             $table->string('turret_url');
             $table->text('location');
         });

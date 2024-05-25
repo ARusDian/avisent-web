@@ -112,7 +112,7 @@
 							"});\r",
 							"\r",
 							"\r",
-							"pm.test(\"Validate the data array - each object should have id_turret, image_id, description, secret_url, turret_url and location properties\", function () {\r",
+							"pm.test(\"Validate the data array - each object should have id_turret, image_id, description, server_url, turret_url and location properties\", function () {\r",
 							"    const responseData = pm.response.json();\r",
 							"\r",
 							"    pm.expect(responseData).to.be.an('object');\r",
@@ -122,7 +122,7 @@
 							"        pm.expect(turret).to.have.property('id_turret');\r",
 							"        pm.expect(turret).to.have.property('image_id');\r",
 							"        pm.expect(turret).to.have.property('description');\r",
-							"        pm.expect(turret).to.have.property('secret_url');\r",
+							"        pm.expect(turret).to.have.property('server_url');\r",
 							"        pm.expect(turret).to.have.property('turret_url');\r",
 							"        pm.expect(turret).to.have.property('location');\r",
 							"    });\r",
@@ -289,7 +289,7 @@
 							"type": "text"
 						},
 						{
-							"key": "secret_url",
+							"key": "server_url",
 							"value": "api-turret-testing-1-key",
 							"type": "text"
 						},
@@ -409,7 +409,7 @@
 							"type": "text"
 						},
 						{
-							"key": "secret_url",
+							"key": "server_url",
 							"value": "api-turret-testing-2-key",
 							"type": "text"
 						},

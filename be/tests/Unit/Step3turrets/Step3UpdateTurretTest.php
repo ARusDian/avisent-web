@@ -18,7 +18,7 @@ it('can update turret data (with image)', function () {
         '_method' => 'PATCH',
         'path' => $file,
         'description' => Str::random(10),
-        'secret_url' => Str::random(10),
+        'server_url' => Str::random(10),
         'turret_url' => Str::random(10),
         'location' => Str::random(10),
     ];
@@ -33,7 +33,7 @@ it('can update turret data (with image)', function () {
             'id_turret',
             'image_id',
             'description',
-            'secret_url',
+            'server_url',
             'turret_url',
             'location',
             'file' =>[
@@ -46,7 +46,7 @@ it('can update turret data (with image)', function () {
 
     $this->assertDatabaseHas('turrets', [
         'description' => $turretData['description'],
-        'secret_url' => $turretData['secret_url'],
+        'server_url' => $turretData['server_url'],
         'turret_url' => $turretData['turret_url'],
         'location' => $turretData['location'],
     ]);
@@ -60,7 +60,7 @@ it('can update turret data (without image)', function () {
     $turretData = [
         '_method' => 'PATCH',
         'description' => Str::random(10),
-        'secret_url' => Str::random(10),
+        'server_url' => Str::random(10),
         'turret_url' => Str::random(10),
         'location' => Str::random(10),
     ];
@@ -75,7 +75,7 @@ it('can update turret data (without image)', function () {
             'id_turret',
             'image_id',
             'description',
-            'secret_url',
+            'server_url',
             'turret_url',
             'location',
             'file' =>[
@@ -88,7 +88,7 @@ it('can update turret data (without image)', function () {
 
     $this->assertDatabaseHas('turrets', [
         'description' => $turretData['description'],
-        'secret_url' => $turretData['secret_url'],
+        'server_url' => $turretData['server_url'],
         'turret_url' => $turretData['turret_url'],
         'location' => $turretData['location'],
     ]);
@@ -103,7 +103,7 @@ it('can send error message when validation failed', function () {
         '_method' => 'PATCH',
         'path' => '',
         'description' => '',
-        'secret_url' => '',
+        'server_url' => '',
         'turret_url' => '',
         'location' => '',
     ];
@@ -125,7 +125,7 @@ it('can send error when trying access non existing turret data id', function () 
     $turretData = [
         '_method' => 'PATCH',
         'description' => Str::random(10),
-        'secret_url' => Str::random(10),
+        'server_url' => Str::random(10),
         'turret_url' => Str::random(10),
         'location' => Str::random(10),
     ];
@@ -143,7 +143,7 @@ it('can send error message when accessed without authentication (without passwor
     $turretData = [
         '_method' => 'PATCH',
         'description' => Str::random(10),
-        'secret_url' => Str::random(10),
+        'server_url' => Str::random(10),
         'turret_url' => Str::random(10),
         'location' => Str::random(10),
     ];

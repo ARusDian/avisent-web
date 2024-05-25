@@ -1734,7 +1734,7 @@
 											"    pm.expect(responseData).to.have.property('data');\r",
 											"});\r",
 											"\r",
-											"pm.test(\"Response has the correct object - each object should have id_turret, image_id, description, secret_url, turret_url and location properties\", function () {\r",
+											"pm.test(\"Response has the correct object - each object should have id_turret, image_id, description, server_url, turret_url and location properties\", function () {\r",
 											"    const responseData = pm.response.json();\r",
 											"\r",
 											"    pm.expect(responseData).to.be.an('object');\r",
@@ -1744,7 +1744,7 @@
 											"        pm.expect(turret).to.have.property('id_turret');\r",
 											"        pm.expect(turret).to.have.property('turret_image');\r",
 											"        pm.expect(turret).to.have.property('description');\r",
-											"        pm.expect(turret).to.have.property('secret_url');\r",
+											"        pm.expect(turret).to.have.property('server_url');\r",
 											"        pm.expect(turret).to.have.property('turret_url');\r",
 											"        pm.expect(turret).to.have.property('location');\r",
 											"\r",
@@ -1884,13 +1884,13 @@
 											"    pm.expect(responseData).to.have.property('data');\r",
 											"});\r",
 											"\r",
-											"pm.test(\"Response has the correct object - each object should have id_turret, turret_image, description, secret_url, turret_url and location type properties\", function () {\\\r",
+											"pm.test(\"Response has the correct object - each object should have id_turret, turret_image, description, server_url, turret_url and location type properties\", function () {\\\r",
 											"    const responseData = pm.response.json();\r",
 											"\r",
 											"    pm.expect(responseData.data).to.have.property(\"id_turret\");\r",
 											"    pm.expect(responseData.data).to.have.property(\"turret_image\");\r",
 											"    pm.expect(responseData.data).to.have.property(\"description\");\r",
-											"    pm.expect(responseData.data).to.have.property(\"secret_url\");\r",
+											"    pm.expect(responseData.data).to.have.property(\"server_url\");\r",
 											"    pm.expect(responseData.data).to.have.property(\"turret_url\");\r",
 											"    pm.expect(responseData.data).to.have.property(\"location\");\r",
 											"\r",
@@ -2084,14 +2084,14 @@
 											"    pm.expect(responseData).to.have.property('data');\r",
 											"});\r",
 											"\r",
-											"pm.test(\"Response has the correct object - each object should have id_turret, image_id, description, secret_url, turret_url and location properties\", function () {\r",
+											"pm.test(\"Response has the correct object - each object should have id_turret, image_id, description, server_url, turret_url and location properties\", function () {\r",
 											"    const responseData = pm.response.json();\r",
 											"\r",
 											"    pm.expect(responseData).to.be.an('object');\r",
 											"    pm.expect(responseData.data).to.have.property('id_turret');\r",
 											"    pm.expect(responseData.data).to.have.property('image_id');\r",
 											"    pm.expect(responseData.data).to.have.property('description');\r",
-											"    pm.expect(responseData.data).to.have.property('secret_url');\r",
+											"    pm.expect(responseData.data).to.have.property('server_url');\r",
 											"    pm.expect(responseData.data).to.have.property('turret_url');\r",
 											"    pm.expect(responseData.data).to.have.property('location');\r",
 											"\r",
@@ -2106,8 +2106,11 @@
 								{
 									"listen": "prerequest",
 									"script": {
-										"packages": {},
-										"type": "text/javascript"
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
 									}
 								}
 							],
@@ -2138,7 +2141,7 @@
 											"type": "text"
 										},
 										{
-											"key": "secret_url",
+											"key": "server_url",
 											"value": "api-turret-testing-1-key",
 											"type": "text"
 										},
@@ -2226,7 +2229,7 @@
 											"type": "text"
 										},
 										{
-											"key": "secret_url",
+											"key": "server_url",
 											"value": "",
 											"type": "text"
 										},
@@ -2308,7 +2311,7 @@
 											"type": "text"
 										},
 										{
-											"key": "secret_url",
+											"key": "server_url",
 											"value": "api-turret-testing-1-key",
 											"type": "text"
 										},
@@ -2368,14 +2371,14 @@
 											"    pm.expect(responseData).to.have.property('data');\r",
 											"});\r",
 											"\r",
-											"pm.test(\"Response has the correct object - each object should have id_turret, image_id, description, secret_url, turret_url and location properties\", function () {\r",
+											"pm.test(\"Response has the correct object - each object should have id_turret, image_id, description, server_url, turret_url and location properties\", function () {\r",
 											"    const responseData = pm.response.json();\r",
 											"\r",
 											"    pm.expect(responseData).to.be.an('object');\r",
 											"    pm.expect(responseData.data).to.have.property('id_turret');\r",
 											"    pm.expect(responseData.data).to.have.property('image_id');\r",
 											"    pm.expect(responseData.data).to.have.property('description');\r",
-											"    pm.expect(responseData.data).to.have.property('secret_url');\r",
+											"    pm.expect(responseData.data).to.have.property('server_url');\r",
 											"    pm.expect(responseData.data).to.have.property('turret_url');\r",
 											"    pm.expect(responseData.data).to.have.property('location');\r",
 											"\r",
@@ -2425,7 +2428,7 @@
 											"type": "text"
 										},
 										{
-											"key": "secret_url",
+											"key": "server_url",
 											"value": "api-turret-testing-2-key",
 											"type": "text"
 										},
@@ -2528,7 +2531,7 @@
 											"type": "text"
 										},
 										{
-											"key": "secret_url",
+											"key": "server_url",
 											"value": "",
 											"type": "text"
 										},
@@ -2583,6 +2586,13 @@
 										"type": "text/javascript",
 										"packages": {}
 									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"packages": {},
+										"type": "text/javascript"
+									}
 								}
 							],
 							"request": {
@@ -2617,7 +2627,7 @@
 											"type": "text"
 										},
 										{
-											"key": "secret_url",
+											"key": "server_url",
 											"value": "api-turret-testing-2-key",
 											"type": "text"
 										},
@@ -2704,7 +2714,7 @@
 											"type": "text"
 										},
 										{
-											"key": "secret_url",
+											"key": "server_url",
 											"value": "api-turret-testing-2-key",
 											"type": "text"
 										},
@@ -2765,9 +2775,14 @@
 											"    pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(\"application/json\");\r",
 											"});\r",
 											"\r",
-											"pm.test(\"Response have correct message\", function () {\r",
-											"    pm.expect(pm.response.json()).to.have.property(\"message\", \"You do not have access to this page\");\r",
-											"});"
+											"pm.test(\"Response body schema for successful delete operation\", function () {\r",
+											"    const responseData = pm.response.json();\r",
+											"    \r",
+											"    pm.expect(responseData).to.be.an('object');\r",
+											"    pm.expect(responseData).to.have.property('success', true);\r",
+											"    pm.expect(responseData).to.have.property('message', 'Turret data deleted successfully');\r",
+											"});\r",
+											""
 										],
 										"type": "text/javascript",
 										"packages": {}

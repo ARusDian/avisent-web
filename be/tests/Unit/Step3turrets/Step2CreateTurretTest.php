@@ -17,7 +17,7 @@ it('can create a turret', function () {
     $turretData = [
         'path' => $file,
         'description' => Str::random(10),
-        'secret_url' => Str::random(10),
+        'server_url' => Str::random(10),
         'turret_url' => Str::random(10),
         'location' => Str::random(10),
     ];
@@ -34,7 +34,7 @@ it('can create a turret', function () {
             'id_turret',
             'image_id',
             'description',
-            'secret_url',
+            'server_url',
             'turret_url',
             'location',
         ],
@@ -42,7 +42,7 @@ it('can create a turret', function () {
 
     $this->assertDatabaseHas('turrets', [
         'description' => $turretData['description'],
-        'secret_url' => $turretData['secret_url'],
+        'server_url' => $turretData['server_url'],
         'turret_url' => $turretData['turret_url'],
         'location' => $turretData['location'],
     ]);
@@ -56,7 +56,7 @@ it('can send error message when validation failed', function () {
     $turretData = [
         'path' => '',
         'description' => '',
-        'secret_url' => '',
+        'server_url' => '',
         'turret_url' => '',
         'location' => '',
     ];
@@ -74,7 +74,7 @@ it('can send error message when accessed without authentication', function () {
     $turretData = [
         'path' => Str::random(10),
         'description' => Str::random(10),
-        'secret_url' => Str::random(10),
+        'server_url' => Str::random(10),
         'turret_url' => Str::random(10),
         'location' => Str::random(10),
     ];

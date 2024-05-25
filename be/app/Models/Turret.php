@@ -15,7 +15,8 @@ class Turret extends Model
     protected $fillable= [
         'image_id',
         'description',
-        'secret_key',
+        'secret_url',
+        'turret_url',
         'location',
     ];
 

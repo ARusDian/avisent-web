@@ -22,7 +22,8 @@ class TurretSeeder extends Seeder
         Turret::create([
             'image_id' => 1,
             'description' => 'Turret yg lg di sawah 1',
-            'secret_key' => 'turret-1',
+            'secret_url' => 'secret-url-1',
+            'turret_url' => 'turret_url-1',
             'location' => 'Sawah 1',
         ]);
 
@@ -34,7 +35,8 @@ class TurretSeeder extends Seeder
         Turret::create([
             'image_id' => 2,
             'description' => 'Turret yg lg di sawah 2',
-            'secret_key' => 'turret-2',
+            'secret_url' => 'secret-url-2',
+            'turret_url' => 'turret_url-2',
             'location' => 'Sawah 2',
         ]);
 
@@ -46,7 +48,8 @@ class TurretSeeder extends Seeder
         Turret::create([
             'image_id' => 3,
             'description' => 'Turret yg lg di sawah 3',
-            'secret_key' => 'turret-3',
+            'secret_url' => 'secret-url-3',
+            'turret_url' => 'turret_url-3',
             'location' => 'Sawah 3',
         ]);
     }

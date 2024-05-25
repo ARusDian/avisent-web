@@ -112,7 +112,7 @@
 							"});\r",
 							"\r",
 							"\r",
-							"pm.test(\"Validate the data array - each object should have id_turret, image_id, description, secret_key and location properties\", function () {\r",
+							"pm.test(\"Validate the data array - each object should have id_turret, image_id, description, secret_url, turret_url and location properties\", function () {\r",
 							"    const responseData = pm.response.json();\r",
 							"\r",
 							"    pm.expect(responseData).to.be.an('object');\r",
@@ -122,7 +122,8 @@
 							"        pm.expect(turret).to.have.property('id_turret');\r",
 							"        pm.expect(turret).to.have.property('image_id');\r",
 							"        pm.expect(turret).to.have.property('description');\r",
-							"        pm.expect(turret).to.have.property('secret_key');\r",
+							"        pm.expect(turret).to.have.property('secret_url');\r",
+							"        pm.expect(turret).to.have.property('turret_url');\r",
 							"        pm.expect(turret).to.have.property('location');\r",
 							"    });\r",
 							"});\r",
@@ -288,13 +289,18 @@
 							"type": "text"
 						},
 						{
-							"key": "secret_key",
+							"key": "secret_url",
 							"value": "api-turret-testing-1-key",
 							"type": "text"
 						},
 						{
 							"key": "location",
 							"value": "Sawah api-turret-testing-1",
+							"type": "text"
+						},
+						{
+							"key": "turret_url",
+							"value": "turret-url-testing-1",
 							"type": "text"
 						}
 					]
@@ -377,7 +383,7 @@
 					"bearer": [
 						{
 							"key": "token",
-							"value": "H8niqDg6qOSrI2ffnbJ8Du62UxYWtoiBEMW9sr8V9168f493",
+							"value": "ZA1wauSsC6neo0sxOtkEWe1oE2TKQutOujmW9ikB87e7a658",
 							"type": "string"
 						}
 					]
@@ -403,13 +409,18 @@
 							"type": "text"
 						},
 						{
-							"key": "secret_key",
+							"key": "secret_url",
 							"value": "api-turret-testing-2-key",
 							"type": "text"
 						},
 						{
 							"key": "location",
 							"value": "Sawah api-turret-testing-2",
+							"type": "text"
+						},
+						{
+							"key": "turret_url",
+							"value": "turret-url-testing-2",
 							"type": "text"
 						}
 					]
@@ -473,7 +484,7 @@
 				"method": "DELETE",
 				"header": [],
 				"url": {
-					"raw": "localhost:8000/api/turrets/4",
+					"raw": "localhost:8000/api/turrets/5",
 					"host": [
 						"localhost"
 					],
@@ -481,7 +492,7 @@
 					"path": [
 						"api",
 						"turrets",
-						"4"
+						"5"
 					]
 				}
 			},
@@ -633,7 +644,10 @@
 						{
 							"key": "path",
 							"type": "file",
-							"src": "/C:/Users/mikai/OneDrive/Pictures/Screenshots/KTM.jpg"
+							"src": [
+								"postman-cloud:///1ef1a508-0ddf-4370-813f-3238e84d87d2",
+								"/C:/Users/mikai/OneDrive/Pictures/Screenshots/KTM.jpg"
+							]
 						},
 						{
 							"key": "turret_id",

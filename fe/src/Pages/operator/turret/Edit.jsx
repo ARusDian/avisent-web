@@ -16,6 +16,7 @@ export function OperatorTurretEdit() {
   useEffect(() => {
     const fetchData = async () => {
       const token = localStorage.getItem("token");
+      console.log(localStorage);
       try {
         const response = await axios.get(
           `http://localhost:8000/api/turrets/${id}`, // Menggunakan id_turret sebagai ID dalam URL
@@ -67,13 +68,13 @@ export function OperatorTurretEdit() {
     const token = localStorage.getItem("token");
 
     const formDataToSend = new FormData();
-    formDataToSend.append("path", formData.path);
+    formDataToSend.append("_method", "PATCH");
     formDataToSend.append("description", formData.description);
     formDataToSend.append("location", formData.location);
     formDataToSend.append("secret_key", formData.secretKey);
 
     try {
-      const response = await axios.put(
+      const response = await axios.post(
         `http://localhost:8000/api/turrets/${id}`, // Menggunakan id_turret sebagai ID dalam URL
         formDataToSend,
         {

@@ -8,6 +8,7 @@ import { OperatorLayout } from "./Components/layout/OperatorLayout";
 import { OperatorTurret } from "./Pages/operator/turret/Index";
 import { OperatorTurretCreate } from "./Pages/operator/turret/Create";
 import { OperatorTurretEdit } from "./Pages/operator/turret/Edit";
+import { OperatorTurretControl } from "./Pages/operator/turret/Control";
 import { AdminHome } from "./Pages/admin/home/Index";
 import { AdminLog } from "./Pages/admin/log/Index";
 import { AdminAccount } from "./Pages/admin/account/Index";
@@ -22,8 +23,7 @@ const App = () => {
     <BrowserRouter>
       <Routes>
         {/* Route Public */}
-        <Route path="/" element={<Index />} />
-        <Route path="/login" element={<Login />} />
+        <Route index={true} path="/login" element={<Login />} />
 
         {/* Route Admin */}
         <Route
@@ -60,6 +60,7 @@ const App = () => {
           <Route path="turret" element={<OperatorTurret />} />
           <Route path="turret/create" element={<OperatorTurretCreate />} />
           <Route path="turret/:id/edit" element={<OperatorTurretEdit />} />
+          <Route path="turret/:id/control" element={<OperatorTurretControl />} />
         </Route>
       </Routes>
     </BrowserRouter>

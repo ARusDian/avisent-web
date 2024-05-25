@@ -5,8 +5,16 @@ export function OperatorLog() {
   const [currentPage, setCurrentPage] = useState(1);
 
   const fetchLogs = async () => {
+    const token = localStorage.getItem("token");
     try {
-      const response = await axios.get("http://localhost:8000/api/logs");
+      const response = await axios.get(
+        `http://localhost:8000/api/logs`, // Menggunakan id_turret sebagai ID dalam URL
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
       if (response.data && response.data.success) {
         setLogs(response.data.data);
       }

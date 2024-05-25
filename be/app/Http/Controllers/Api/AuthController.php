@@ -22,12 +22,11 @@ class AuthController extends Controller
         }
 
         $credentials = $request->only('name', 'password');
-        // dd(Auth::attempt($credentials));
 
         if (! Auth::attempt($credentials)) {
             return response()->json([
-                'message' => 'Wrong credentials'
-            ], 401);
+                'message' => 'Incorrect name or password'
+            ],401);
         } else {
             $user   = User::where('name', $request->name)->firstOrFail();
             $token  = $user->createToken('auth_token')->plainTextToken;

@@ -21,14 +21,15 @@ Route::middleware(['auth:sanctum'])->group( function () {
 Route::middleware(['auth:sanctum', 'user-access:1'])->group( function () {
     Route::apiResource('turrets', TurretController::class);
     Route::post('mlogs', [ManualLogController::class, 'store']);
+    Route::get('logs', [LogController::class, 'index']);
 });
 
 // Turret
-Route::apiResource('logs', LogController::class);
+Route::post('logs', [LogController::class, 'store']);
 
 // Admin
 Route::middleware(['auth:sanctum', 'user-access:3'])->group( function () {
     Route::apiResource('users', UserController::class);
     Route::get('mlogs', [ManualLogController::class, 'index']);
-    Route::put('users/password/{id_user}', [UserController::class, 'pass_edit']);
+    Route::put('users/password/{user}', [UserController::class, 'pass_edit']);
 });

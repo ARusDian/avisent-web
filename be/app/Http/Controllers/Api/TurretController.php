@@ -39,7 +39,10 @@ class TurretController extends Controller
         ]);
 
         if ($validator->fails()) {
-            return response()->json($validator->errors(), 422);
+            return response()->json([
+                'error' => True,
+                'message' => $validator->errors()
+            ],403);
         }
 
         $image = $request->file('path');
@@ -63,7 +66,14 @@ class TurretController extends Controller
 
     public function show($id)
     {
-        $turret = Turret::with('file')->findOrFail($id);
+        $turret = Turret::with('file')->find($id);
+
+        if ($turret == null){
+            return response()->json([
+                'error' => True,
+                'message' => 'That turret does not exist',
+            ],404);
+        }
 
         $formattedturret =  [
                 'id_turret' => $turret->id_turret,
@@ -86,11 +96,22 @@ class TurretController extends Controller
         ]);
 
         if ($validator->fails()) {
-            return response()->json($validator->errors(), 422);
+            return response()->json([
+                'error' => True,
+                'message' => $validator->errors()
+            ],403);
         }
 
-        $turret = Turret::findOrFail($id);
-        $file = File::findOrFail($turret->file->id_file);
+        $turret = Turret::find($id);
+
+        if ($turret == null){
+            return response()->json([
+                'error' => True,
+                'message' => 'That turret does not exist',
+            ],404);
+        }
+
+        $file = File::find($turret->file->id_file);
 
         if ($request->hasFile('path')) {
             $image = $request->file('path');
@@ -123,7 +144,15 @@ class TurretController extends Controller
 
     public function destroy($id)
     {
-        $turret = Turret::findOrFail($id);
+        $turret = Turret::find($id);
+
+        if ($turret == null){
+            return response()->json([
+                'error' => True,
+                'message' => 'That turret does not exist',
+            ],404);
+        }
+
         $file = File::findOrFail($turret->file->id_file);
 
         Storage::delete('public/turrets/' . basename($turret->file->path));
@@ -134,4 +163,3 @@ class TurretController extends Controller
         return new TurretResource(true, 'Turret data deleted successfully', $turret);
     }
 }
- 

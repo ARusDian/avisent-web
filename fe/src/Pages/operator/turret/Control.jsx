@@ -121,7 +121,7 @@ export function OperatorTurretControl() {
 	return (
 		<div className="min-h-screen">
 			<div className="mx-[25%]">
-				<div className="p-5 bg-gray-200 rounded-xl">
+				<div className="p-5 bg-gray-200 rounded-xl min-h-96">
 					<img
 						className=""
 						src={
@@ -129,13 +129,15 @@ export function OperatorTurretControl() {
 								? `${turret.serverUrl}/${mode}`
 								: ""
 						}
-					></img>
+					/>
 				</div>
 				<div className="p-5 bg-gray-200 rounded-xl">
-					<a className="font-sans font-bold text-xl">Controller</a>
+					<div className="flex justify-center">
+						<h1 className="text-xl font-bold">Turret Control</h1>
+					</div>
 					<div className="flex justify-between">
 						<button
-							className="col-start-2 bg-blue-500 hover:bg-blue-700 text-white font-bold rounded flex flex-wrap justify-center"
+							className="col-start-2 bg-blue-500 hover:bg-blue-700 text-white font-bold rounded flex flex-wrap justify-center px-5 py-2"
 							onClick={() => handleClick("reset")}
 							onMouseDown={() => onMouseDown("reset")}
 							onMouseUp={onMouseUp}
@@ -213,7 +215,11 @@ export function OperatorTurretControl() {
 							</div>
 						</div>
 					) : (
-						"Detection Mode"
+						<div className="flex justify-center h-60">
+                                <p className="m-auto text-3xl">
+                                    Detection Mode
+                                </p>
+						</div>
 					)}
 				</div>
 			</div>

@@ -18,13 +18,17 @@ class AuthController extends Controller
         ]);
 
         if ($validator->fails()) {
-            return response()->json($validator->errors());
+            return response()->json([
+                'error' => True,
+                'message' => $validator->errors()
+            ],403);
         }
 
         $credentials = $request->only('name', 'password');
 
         if (! Auth::attempt($credentials)) {
             return response()->json([
+                'error' => True,
                 'message' => 'Incorrect name or password'
             ],401);
         } else {

@@ -10,7 +10,6 @@ export function NavbarOperator() {
   const handleLogout = async () => {
     try {
       const accessToken = localStorage.getItem("token");
-      console.log("Access Token:", accessToken);
 
       if (accessToken) {
         const config = {
@@ -24,7 +23,7 @@ export function NavbarOperator() {
           null,
           config
         );
-        console.log("Logout Response:", response);
+        
         localStorage.removeItem("token");
         navigate("/login");
       } else {

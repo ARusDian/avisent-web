@@ -22,9 +22,8 @@ export function AdminAccount() {
         },
       })
       .then((response) => {
-        console.log("Response status:", response.status);
         const data = response.data;
-        console.log("Response data:", data);
+
         if (data.success) {
           setAccounts(
             data.data.map((user) => ({
@@ -58,7 +57,6 @@ export function AdminAccount() {
           },
         }
       );
-      console.log("Delete Response:", response);
 
       if (response.status === 200) {
         setAccounts(accounts.filter((account) => account.id !== id));

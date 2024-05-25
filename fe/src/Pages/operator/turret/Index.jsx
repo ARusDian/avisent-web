@@ -52,7 +52,6 @@ export function OperatorTurret() {
           },
         }
       );
-      console.log("Delete Response:", response);
 
       if (response.status === 200) {
         setTurrets(turrets.filter((turret) => turret.id_turret !== id));

@@ -85,7 +85,6 @@ export function OperatorTurretEdit() {
       );
 
       if (response.status === 200) {
-        console.log("Success to update turret");
         navigate("/operator/turret");
       } else {
         console.error("Failed to update turret");

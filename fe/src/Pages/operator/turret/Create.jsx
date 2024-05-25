@@ -52,7 +52,6 @@ export function OperatorTurretCreate() {
       );
 
       if (response.status === 201) {
-        console.log("Success to add turret");
         navigate("/operator/turret");
       } else {
         console.error("Failed to add turret");

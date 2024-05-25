@@ -9,10 +9,8 @@ export function AdminAccountEdit() {
   const [formData, setFormData] = useState({
     name: "",
     role: "",
-    password: "",
   });
 
-  const [originalPassword, setOriginalPassword] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
@@ -93,7 +91,6 @@ export function AdminAccountEdit() {
       );
 
       if (response.status === 200) {
-        console.log("User updated successfully");
         navigate("/admin/account");
       } else {
         console.error("Failed to update user");

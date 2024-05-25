@@ -67,7 +67,6 @@ export function AdminAccountCreate() {
           },
         }
       );
-      console.log("Response:", response.data);
 
       setFormData({
         user: "",

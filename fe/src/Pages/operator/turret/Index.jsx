@@ -123,15 +123,21 @@ export function OperatorTurret() {
                   <td className="border border-[#697077] px-4 py-2 text-center align-middle">
                     {turret.location}
                   </td>
-                  <td className="border border-[#697077] px-10 py-2 text-center align-middle">
+                  <td className="border border-[#697077] px-10 py-2 text-center align-middle flex flex-col gap-3">
                     <Link
                       className="inline-block w-full bg-blue-500 text-white px-2 py-1 hover:bg-blue-700 rounded-xl shadow-lg"
                       to={`/operator/turret/${turret.id_turret}/edit`}
                     >
                       Edit
                     </Link>
+                    <Link
+                      className="inline-block w-full bg-green-500 text-white px-2 py-1 hover:bg-green-700 rounded-xl shadow-lg"
+                      to={`/operator/turret/${turret.id_turret}/control`}
+                    >
+                      Control
+                    </Link>
                     <button
-                      className="bg-red-500 text-white px-2 py-1 hover:bg-red-700 w-full rounded-xl shadow-lg mt-2"
+                      className="bg-red-500 text-white px-2 py-1 hover:bg-red-700 w-full rounded-xl shadow-lg"
                       onClick={() => handleDelete(turret.id_turret)}
                     >
                       Delete

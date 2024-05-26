@@ -1,6 +1,11 @@
-import { BrowserRouter, Routes, Route, Outlet } from "react-router-dom";
+import {
+  BrowserRouter,
+  Routes,
+  Route,
+  Outlet,
+  Navigate,
+} from "react-router-dom";
 import Login from "./Pages/Login";
-import Index from "./Pages/Index";
 import { OperatorHome } from "./Pages/operator/home/Index";
 import { OperatorLog } from "./Pages/operator/log/Index";
 import { AdminLayout } from "./Components/layout/AdminLayout";
@@ -22,7 +27,7 @@ const App = () => {
     <BrowserRouter>
       <Routes>
         {/* Route Public */}
-        <Route path="/" element={<Index />} />
+        <Route path="/" element={<Navigate to="/login" />} />
         <Route path="/login" element={<Login />} />
 
         {/* Route Admin */}

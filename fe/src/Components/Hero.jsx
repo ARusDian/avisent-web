@@ -1,13 +1,16 @@
 import COVER_IMAGE from "../assets/turetgun.jpg";
+import BACKGROUND_IMAGE from "../assets/bg1.png";
 
 const Hero = () => {
   return (
-    <div className="bg-[#F2F4F8]">
+    <div className="bg-[#111827]">
       <div className="flex mx-auto">
         <div className="flex flex-wrap items-center justify-between py-4 px-6">
           <div className="w-full md:w-1/2 p-4">
-            <h1 className="text-3xl font-bold font-roboto mb-4">AvianSentry</h1>
-            <p className="text-lg text-justify">
+            <h1 className="text-3xl font-bold font-roboto mb-4 text-white">
+              AvianSentry
+            </h1>
+            <p className="text-lg text-justify text-white">
               Produk AviSent yang akan dibuat merupakan turret mencakup kumpulan
               fungsi dan fitur yang akan diintegrasikan ke dalam sistem. Produk
               ini dirancang untuk mendeteksi keberadaan hama dengan menggunakan

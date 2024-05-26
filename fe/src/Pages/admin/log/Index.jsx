@@ -32,77 +32,85 @@ export function AdminLog() {
   const currentItems = logs.slice(firstItemIndex, lastItemIndex);
 
   return (
-    <div className="flex flex-col min-h-screen justify-between">
-      <div className="flex flex-1 flex-col items-center mt-24 justify-center mb-12">
-        <table
-          className="shadow-lg bg-white border-separate"
-          style={{ borderSpacing: 0 }}
-        >
-          <thead>
-            <tr>
-              <th className="bg-[#697077] text-white border border-black font-roboto px-20 py-2 rounded-tl-xl">
-                Operator Name
-              </th>
-              <th className="bg-[#697077] text-white border border-black font-roboto px-20 py-2">
-                ID Turret
-              </th>
-              <th className="bg-[#697077] text-white border border-black font-roboto px-20 py-2">
-                Start Date
-              </th>
-              <th className="bg-[#697077] text-white border border-black font-roboto px-20 py-2">
-                End Date
-              </th>
-            </tr>
-          </thead>
-          <tbody>
-            {currentItems.map((log, index) => (
-              <tr key={index}>
-                <td className="border border-[#697077] px-28 py-5 ">
-                  {" "}
-                  {log.user_name}{" "}
-                </td>
-                <td className="border border-[#697077] px-28 py-5 ">
-                  {" "}
-                  {log.id_turret}{" "}
-                </td>
-                <td className="border border-[#697077] px-20 py-5">
-                  {log.start_date}{" "}
-                </td>
-                <td className="border border-[#697077] px-20 py-5">
-                  {log.end_date}
-                </td>
+    <div className="flex flex-col min-h-screen justify-between items-center bg-[#111827]">
+      <div className="w-full max-w-4xl mt-24 mb-12">
+        <div className="relative overflow-x-auto shadow-md sm:rounded-lg border-2 border-gray-700">
+          <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+            <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+              <tr>
+                <th scope="col" className="px-6 py-3">
+                  Operator Name
+                </th>
+                <th scope="col" className="px-6 py-3">
+                  ID Turret
+                </th>
+                <th scope="col" className="px-6 py-3">
+                  Start Date
+                </th>
+                <th scope="col" className="px-6 py-3">
+                  End Date
+                </th>
               </tr>
-            ))}
-          </tbody>
-        </table>
-
-        <div className="flex justify-center space-x-2 my-20">
-          <button
-            onClick={() => setCurrentPage(currentPage - 1)}
-            disabled={currentPage === 1}
-            className="p-2 border rounded shadow text-gray-600 hover:bg-gray-200"
-          >
-            {"< Prev"}
-          </button>
-          {Array.from({ length: pageCount }, (_, index) => (
-            <button
-              key={index}
-              onClick={() => setCurrentPage(index + 1)}
-              className={`p-2 border rounded shadow ${
-                currentPage === index + 1 ? "bg-gray-300" : "hover:bg-gray-200"
-              }`}
-            >
-              {index + 1}
-            </button>
-          ))}
-          <button
-            onClick={() => setCurrentPage(currentPage + 1)}
-            disabled={currentPage === pageCount}
-            className="p-2 border rounded shadow text-gray-600 hover:bg-gray-200"
-          >
-            {"Next >"}
-          </button>
+            </thead>
+            <tbody>
+              {currentItems.map((log, index) => (
+                <tr
+                  key={index}
+                  className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
+                >
+                  <th
+                    scope="row"
+                    className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                  >
+                    {log.user_name}
+                  </th>
+                  <td className="px-6 py-4">{log.id_turret}</td>
+                  <td className="px-6 py-4">{log.start_date}</td>
+                  <td className="px-6 py-4">{log.end_date}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
         </div>
+        <nav
+          className="flex items-center justify-center pt-4"
+          aria-label="Table navigation"
+        >
+          <ul className="inline-flex -space-x-px rtl:space-x-reverse text-sm h-8">
+            <li>
+              <button
+                onClick={() => setCurrentPage(currentPage - 1)}
+                disabled={currentPage === 1}
+                className="flex items-center justify-center px-3 h-8 ms-0 leading-tight text-gray-500 bg-white border border-gray-300 rounded-s-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
+              >
+                Previous
+              </button>
+            </li>
+            {Array.from({ length: pageCount }, (_, index) => (
+              <li key={index}>
+                <button
+                  onClick={() => setCurrentPage(index + 1)}
+                  className={`flex items-center justify-center px-3 h-8 leading-tight text-gray-500 border border-gray-300 hover:dark:text-gray-400 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 ${
+                    currentPage === index + 1
+                      ? "text-white bg-gray-800 font-bold "
+                      : "dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
+                  }`}
+                >
+                  {index + 1}
+                </button>
+              </li>
+            ))}
+            <li>
+              <button
+                onClick={() => setCurrentPage(currentPage + 1)}
+                disabled={currentPage === pageCount}
+                className="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 rounded-e-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
+              >
+                Next
+              </button>
+            </li>
+          </ul>
+        </nav>
       </div>
     </div>
   );

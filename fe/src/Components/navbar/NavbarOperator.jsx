@@ -23,7 +23,7 @@ export function NavbarOperator() {
           null,
           config
         );
-        
+
         localStorage.removeItem("token");
         navigate("/login");
       } else {
@@ -41,21 +41,21 @@ export function NavbarOperator() {
   };
 
   return (
-    <nav className="w-full flex flex-row border-b-2 justify-between px-10 py-2 bg-gray-800">
+    <nav className="w-full flex flex-row border-b-2 border-[#4B5563] justify-between px-10 py-2 bg-[#1F2937]">
       <div className="flex items-center gap-x-5">
         <a
           href="/"
-          className="flex items-center space-x-3 font-bold font-roboto text-white"
+          className="flex items-center space-x-3 font-bold font-roboto text-[#C5CAD3]"
         >
           <img src={logo} alt="Logo" className="w-14 h-14" />
           <span>AviSent</span>
         </a>
       </div>
 
-      <div className="flex gap-x-5 font-roboto items-center text-white">
+      <div className="flex gap-x-5 font-roboto items-center text-[#C5CAD3]">
         <NavLink
           className={({ isActive }) =>
-            isActive ? "font-bold text-[#f8dbb3]" : undefined
+            isActive ? "font-bold text-blue-500" : undefined
           }
           to={"/operator/home"}
         >
@@ -63,7 +63,7 @@ export function NavbarOperator() {
         </NavLink>
         <NavLink
           className={({ isActive }) =>
-            isActive ? "font-bold text-[#f8dbb3]" : undefined
+            isActive ? "font-bold text-blue-500" : undefined
           }
           to={"/operator/log"}
         >
@@ -71,7 +71,7 @@ export function NavbarOperator() {
         </NavLink>
         <NavLink
           className={({ isActive }) =>
-            isActive ? "font-bold text-[#f8dbb3]" : undefined
+            isActive ? "font-bold text-blue-500" : undefined
           }
           to={"/operator/turret"}
         >
@@ -79,14 +79,13 @@ export function NavbarOperator() {
         </NavLink>
       </div>
 
-      <div className="flex items-center gap-x-5 font-roboto text-white">
+      <div className="flex items-center gap-x-5 font-roboto text-[#C5CAD3]">
         <button
           onClick={handleLogout}
-          className="text-xs inline-block border-2 border-[#5D5E5F] shadow-lg px-3 py-2 rounded hover:bg-[#f8dbb3]"
+          className="text-xs inline-block border-2 border-[#4B5563] shadow-lg px-3 py-2 rounded hover:bg-blue-500 hover:border-blue-500"
         >
           Log Out
         </button>
-        <img src={profile} alt="Profile" className="inline-block" />
       </div>
     </nav>
   );

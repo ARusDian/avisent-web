@@ -94,87 +94,102 @@ export function AdminAccountCreate() {
   };
 
   return (
-    <div className="flex justify-center items-center min-h-screen bg-gray-100">
+    <div className="flex justify-center items-center min-h-screen bg-[#111827]">
       <form
-        className="bg-white p-8 rounded-3xl shadow-lg w-2/5"
+        className="bg-[#374151] bg-opacity-50 p-8 rounded-3xl shadow-lg w-2/5"
         onSubmit={handleSubmit}
       >
-        <h2 className="text-2xl font-bold mb-6 text-center">Add New Account</h2>
+        <h2 className="text-2xl font-bold mb-16 text-center text-white">
+          Create New Account
+        </h2>
 
         {errors.checkbox && (
           <p className="text-red-500 text-sm mb-4">{errors.checkbox}</p>
         )}
 
-        <div className="mb-4">
+        <div className="mb-5">
           <label
-            className="block text-gray-700 text-sm font-bold mb-2"
             htmlFor="name"
+            className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
           >
             Name
           </label>
           <input
             type="text"
+            id="name"
             name="name"
             placeholder="Enter Name"
-            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
             value={formData.name}
             onChange={handleChange}
+            required
           />
           {errors.name && (
             <p className="text-red-500 text-xs italic">{errors.name}</p>
           )}
         </div>
 
-        <div className="mb-4">
+        <div className="mb-5">
           <label
-            className="block text-gray-700 text-sm font-bold mb-2"
             htmlFor="password"
+            className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
           >
             Password
           </label>
           <input
             type="password"
+            id="password"
             name="password"
             placeholder="Enter Password"
-            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
             value={formData.password}
             onChange={handleChange}
+            required
           />
           {errors.password && (
             <p className="text-red-500 text-xs italic">{errors.password}</p>
           )}
         </div>
 
-        <div className="flex space-x-4 mb-4">
-          <label className="inline-flex items-center">
-            <input
-              type="checkbox"
-              name="operator"
-              checked={formData.operator}
-              onChange={handleChange}
-              className="form-checkbox text-blue-600"
-            />
-            <span className="ml-2 text-gray-700">Operator</span>
+        <div className="mb-5">
+          <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+            Type
           </label>
-          <label className="inline-flex items-center">
-            <input
-              type="checkbox"
-              name="admin"
-              checked={formData.admin}
-              onChange={handleChange}
-              className="form-checkbox text-blue-600"
-            />
-            <span className="ml-2 text-gray-700">Admin</span>
-          </label>
+          <div className="flex space-x-4">
+            <label className="inline-flex items-center">
+              <input
+                type="checkbox"
+                id="operator"
+                name="operator"
+                checked={formData.operator}
+                onChange={handleChange}
+                className="form-checkbox text-blue-600"
+              />
+              <span className="ml-2 text-gray-700 dark:text-white">
+                Operator
+              </span>
+            </label>
+            <label className="inline-flex items-center">
+              <input
+                type="checkbox"
+                id="admin"
+                name="admin"
+                checked={formData.admin}
+                onChange={handleChange}
+                className="form-checkbox text-blue-600"
+              />
+              <span className="ml-2 text-gray-700 dark:text-white">Admin</span>
+            </label>
+          </div>
         </div>
 
         <div className="text-center mt-10">
           <button
             type="submit"
-            className="bg-[#697077] text-white shadow hover:bg-[#f8dbb3] font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+            className="text-white bg-[#697077] hover:bg-blue-500 focus:ring-4 focus:outline-none focus:ring-[#f8dbb3] font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center"
             disabled={submitting}
           >
-            {submitting ? "Adding..." : "Add"}
+            {submitting ? "Creating..." : "Create"}
           </button>
         </div>
       </form>

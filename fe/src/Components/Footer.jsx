@@ -2,12 +2,12 @@ import logo from "../assets/logo.png";
 
 const Footer = () => {
   return (
-    <footer className="bg-gray-800 text-white p-10">
+    <footer className="bg-[#1F2937] text-white p-10   ">
       <div className="max-w-6xl mx-auto flex justify-strat space-x-20">
         <div>
           <a href="/" className="flex items-center space-x-4 mb-4">
             <img src={logo} alt="Logo" className="h-8 w-8" />
-            <span className="font-bold text-xl flex items-center space-x-3">
+            <span className="font-bold text-xl flex items-center space-x-3 text-[#C5CAD3] ">
               AviSent
             </span>
           </a>

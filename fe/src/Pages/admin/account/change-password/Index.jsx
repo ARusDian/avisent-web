@@ -20,45 +20,58 @@ export function AdminAccountChangePassword() {
       password: password,
     };
 
-    const response = await axios.put(
-      `http://localhost:8000/api/users/password/${id}`,
-      payload,
-      {
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-        },
-      }
-    );
+    try {
+      const response = await axios.put(
+        `http://localhost:8000/api/users/password/${id}`,
+        payload,
+        {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        }
+      );
 
-    if (response.status === 200) {
-      navigate("/admin/account");
+      if (response.status === 200) {
+        navigate("/admin/account");
+      } else {
+        console.error("Failed to change password");
+      }
+    } catch (error) {
+      console.error("Error:", error);
     }
   };
 
   return (
-    <div className="flex justify-center items-center min-h-screen bg-gray-100">
+    <div className="flex justify-center items-center min-h-screen bg-[#111827]">
       <form
         onSubmit={handleSubmit}
-        className="bg-white p-8 rounded-3xl shadow-lg w-2/5"
+        className="bg-[#374151] bg-opacity-50 p-8 rounded-3xl shadow-lg w-2/5"
       >
-        <h2 className="text-2xl font-bold mb-6 text-center">Change Password</h2>
-        <div className="mb-4">
-          <label className="block text-gray-700 text-sm font-bold mb-3">
+        <h2 className="text-2xl font-bold mb-16 text-center text-white">
+          Change Password
+        </h2>
+        <div className="mb-5">
+          <label
+            htmlFor="password"
+            className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+          >
             Password
           </label>
           <input
             type="text"
+            id="password"
             name="password"
             placeholder="Enter New Password"
             value={password}
-            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
             onChange={handleChange}
+            required
           />
         </div>
         <div className="text-center mt-10">
           <button
             type="submit"
-            className="bg-[#697077] text-white shadow hover:bg-[#f8dbb3] font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+            className="text-white bg-[#697077] hover:bg-blue-500 focus:ring-4 focus:outline-none focus:ring-[#f8dbb3] font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center"
           >
             Save
           </button>

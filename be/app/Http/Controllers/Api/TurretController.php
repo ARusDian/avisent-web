@@ -133,7 +133,7 @@ class TurretController extends Controller
             $turret->update([
                 'image_id'     => $file->id_file,
                 'description'     => $request->description,
-                'server_url'   => $request->seserver_urlcret_url,
+                'server_url'   => $request->server_url,
                 'turret_url'   => $request->turret_url,
                 'location'   => $request->location,
             ]);

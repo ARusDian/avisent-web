@@ -72,7 +72,11 @@ export function OperatorLog() {
                   {log.turret_id}
                 </td>
                 <td className="border border-[#697077] px-20 py-5">
-                  {log.image_id}
+                <img
+											src={log.image}
+											alt={`${log.image}`}
+											className="h-20 w-20 object-cover"
+										/>
                 </td>
                 <td className="border border-[#697077] px-20 py-5">
                   {log.location}

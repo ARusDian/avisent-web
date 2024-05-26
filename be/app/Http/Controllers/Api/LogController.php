@@ -19,7 +19,7 @@ class LogController extends Controller
             return [
                 'id_log' => $log->id_log,
                 'turret_id' => $log->turret_id,
-                'image' => asset('storage/turrets/' . $log->file->path),
+                'image' => asset('storage/logs/' . $log->file->path),
                 'location' => $log->location,
                 'object_type' => $log->object_type,
                 'shot_date' => $log->shot_date,

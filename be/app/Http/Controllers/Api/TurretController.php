@@ -21,7 +21,8 @@ class TurretController extends Controller
                 'id_turret' => $turret->id_turret,
                 'turret_image' => asset('storage/turrets/' . $turret->file->path),
                 'description' => $turret->description,
-                'secret_key' => $turret->secret_key,
+                'server_url' => $turret->server_url,
+                'turret_url' => $turret->turret_url,
                 'location' => $turret->location,
             ];
         });
@@ -34,7 +35,8 @@ class TurretController extends Controller
         $validator = Validator::make($request->all(), [
             'path' => 'required|image',
             'description' => 'required',
-            'secret_key' => 'required',
+            'server_url' => 'required',
+            'turret_url' => 'required',
             'location' => 'required',
         ]);
 
@@ -57,7 +59,8 @@ class TurretController extends Controller
         $turret = Turret::create([
             'image_id'     => $file->id_file,
             'description'     => $request->description,
-            'secret_key'   => $request->secret_key,
+            'server_url'   => $request->server_url,
+            'turret_url'   => $request->turret_url,
             'location'   => $request->location,
         ]);
 
@@ -79,7 +82,8 @@ class TurretController extends Controller
                 'id_turret' => $turret->id_turret,
                 'turret_image' => asset('storage/turrets/' . $turret->file->path),
                 'description' => $turret->description,
-                'secret_key' => $turret->secret_key,
+                'server_url' => $turret->server_url,
+                'turret_url' => $turret->turret_url,
                 'location' => $turret->location,
             ];
 
@@ -91,7 +95,8 @@ class TurretController extends Controller
         $validator = Validator::make($request->all(), [
             'path' => 'image',
             'description' => 'required',
-            'secret_key' => 'required',
+            'server_url' => 'required',
+            'turret_url' => 'required',
             'location' => 'required',
         ]);
 
@@ -128,13 +133,15 @@ class TurretController extends Controller
             $turret->update([
                 'image_id'     => $file->id_file,
                 'description'     => $request->description,
-                'secret_key'   => $request->secret_key,
+                'server_url'   => $request->server_url,
+                'turret_url'   => $request->turret_url,
                 'location'   => $request->location,
             ]);
         } else {
             $turret->update([
                 'description'     => $request->description,
-                'secret_key'   => $request->secret_key,
+                'server_url'   => $request->server_url,
+                'turret_url'   => $request->turret_url,
                 'location'   => $request->location,
             ]);
         }

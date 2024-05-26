@@ -18,7 +18,8 @@ it('can delete a turret', function () {
             'id_turret',
             'image_id',
             'description',
-            'secret_key',
+            'server_url',
+            'turret_url',
             'location',
             'file' => [
                 'id_file',

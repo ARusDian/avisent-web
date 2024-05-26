@@ -64,113 +64,129 @@ export function OperatorTurret() {
   };
 
   return (
-    <div className="flex flex-col min-h-screen justify-between">
-      <div className="flex flex-1 flex-col items-center mt-24 justify-center mb-12">
-        <div className="flex flex-col">
-          <div className="flex justify-end">
-            <button
-              onClick={handleAddClick}
-              className="bg-[#697077] text-white shadow hover:bg-[#f8dbb3] px-12 py-2 rounded-xl"
-            >
-              Add
-            </button>
-          </div>
-          <table
-            className="shadow-lg bg-white border-separate mt-4"
-            style={{ borderSpacing: 0 }}
-          >
-            <thead>
-              <tr>
-                <th className="bg-[#697077] text-white border border-black font-roboto px-20 py-2 rounded-tl-xl">
-                  Turret ID
-                </th>
-                <th className="bg-[#697077] text-white border border-black font-roboto px-20 py-2">
-                  Turret Image
-                </th>
-                <th className="bg-[#697077] text-white border border-black font-roboto px-20 py-2">
-                  Description
-                </th>
-                <th className="bg-[#697077] text-white border border-black font-roboto px-20 py-2">
-                  Secret Key
-                </th>
-                <th className="bg-[#697077] text-white border border-black font-roboto px-20 py-2">
-                  Location
-                </th>
-                <th className="bg-[#697077] text-white border border-black font-roboto px-20 py-2 rounded-tr-xl">
-                  Action
-                </th>
-              </tr>
-            </thead>
-            <tbody>
-              {currentItems.map((turret) => (
-                <tr key={turret.id_turret}>
-                  <td className="border border-[#697077] px-4 py-2 text-center align-middle">
-                    {turret.id_turret}
-                  </td>
-                  <td className="border border-[#697077] px-4 py-2 text-center align-middle">
-                    <img
-                      src={turret.turret_image}
-                      alt={`Turret Image ${turret.id_turret}`}
-                      className="h-20 w-20 object-cover"
-                    />
-                  </td>
-                  <td className="border border-[#697077] px-4 py-2 text-center align-middle">
-                    {turret.description}
-                  </td>
-                  <td className="border border-[#697077] px-4 py-2 text-center align-middle">
-                    {turret.secret_key}
-                  </td>
-                  <td className="border border-[#697077] px-4 py-2 text-center align-middle">
-                    {turret.location}
-                  </td>
-                  <td className="border border-[#697077] px-10 py-2 text-center align-middle">
-                    <Link
-                      className="inline-block w-full bg-blue-500 text-white px-2 py-1 hover:bg-blue-700 rounded-xl shadow-lg"
-                      to={`/operator/turret/${turret.id_turret}/edit`}
-                    >
-                      Edit
-                    </Link>
-                    <button
-                      className="bg-red-500 text-white px-2 py-1 hover:bg-red-700 w-full rounded-xl shadow-lg mt-2"
-                      onClick={() => handleDelete(turret.id_turret)}
-                    >
-                      Delete
-                    </button>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
+		<div className="flex flex-col min-h-screen justify-between">
+			<div className="flex flex-1 flex-col items-center mt-24 justify-center mb-12">
+				<div className="flex flex-col">
+					<div className="flex justify-end">
+						<button
+							onClick={handleAddClick}
+							className="bg-[#697077] text-white shadow hover:bg-[#f8dbb3] px-12 py-2 rounded-xl"
+						>
+							Add
+						</button>
+					</div>
+					<table
+						className="shadow-lg bg-white border-separate mt-4"
+						style={{ borderSpacing: 0 }}
+					>
+						<thead>
+							<tr>
+								<th className="bg-[#697077] text-white border border-black font-roboto px-20 py-2 rounded-tl-xl">
+									Turret ID
+								</th>
+								<th className="bg-[#697077] text-white border border-black font-roboto px-20 py-2">
+									Turret Image
+								</th>
+								<th className="bg-[#697077] text-white border border-black font-roboto px-20 py-2">
+									Description
+								</th>
+								<th className="bg-[#697077] text-white border border-black font-roboto px-20 py-2">
+									Server Url
+								</th>
+								<th className="bg-[#697077] text-white border border-black font-roboto px-20 py-2">
+									Turret Url
+								</th>
+								<th className="bg-[#697077] text-white border border-black font-roboto px-20 py-2">
+									Location
+								</th>
+								<th className="bg-[#697077] text-white border border-black font-roboto px-20 py-2 rounded-tr-xl">
+									Action
+								</th>
+							</tr>
+						</thead>
+						<tbody>
+							{currentItems.map((turret) => (
+								<tr key={turret.id_turret}>
+									<td className="border border-[#697077] px-4 py-2 text-center align-middle">
+										{turret.id_turret}
+									</td>
+									<td className="border border-[#697077] px-4 py-2 text-center align-middle">
+										<img
+											src={turret.turret_image}
+											alt={`Turret Image ${turret.id_turret}`}
+											className="h-20 w-20 object-cover"
+										/>
+									</td>
+									<td className="border border-[#697077] px-4 py-2 text-center align-middle">
+										{turret.description}
+									</td>
+									<td className="border border-[#697077] px-4 py-2 text-center align-middle">
+										{turret.server_url}
+									</td>
+									<td className="border border-[#697077] px-4 py-2 text-center align-middle">
+										{turret.turret_url}
+									</td>
+									<td className="border border-[#697077] px-4 py-2 text-center align-middle">
+										{turret.location}
+									</td>
+									<td className="border border-[#697077] px-10 py-2 text-center align-middle flex flex-col gap-3">
+										<Link
+											className="inline-block w-full bg-blue-500 text-white px-2 py-1 hover:bg-blue-700 rounded-xl shadow-lg"
+											to={`/operator/turret/${turret.id_turret}/edit`}
+										>
+											Edit
+										</Link>
+										<Link
+											className="inline-block w-full bg-green-500 text-white px-2 py-1 hover:bg-green-700 rounded-xl shadow-lg"
+											to={`/operator/turret/${turret.id_turret}/control`}
+										>
+											Control
+										</Link>
+										<button
+											className="bg-red-500 text-white px-2 py-1 hover:bg-red-700 w-full rounded-xl shadow-lg"
+											onClick={() =>
+												handleDelete(turret.id_turret)
+											}
+										>
+											Delete
+										</button>
+									</td>
+								</tr>
+							))}
+						</tbody>
+					</table>
+				</div>
 
-        <div className="flex justify-center space-x-2 my-6">
-          <button
-            disabled={currentPage <= 1}
-            onClick={() => setCurrentPage(currentPage - 1)}
-            className="p-2 border rounded shadow text-gray-600 hover:bg-gray-200"
-          >
-            {"< Prev"}
-          </button>
-          {Array.from({ length: pageCount }, (_, index) => (
-            <button
-              key={index}
-              onClick={() => setCurrentPage(index + 1)}
-              className={`p-2 border rounded shadow ${
-                currentPage === index + 1 ? "bg-gray-300" : "hover:bg-gray-200"
-              }`}
-            >
-              {index + 1}
-            </button>
-          ))}
-          <button
-            disabled={currentPage >= pageCount}
-            onClick={() => setCurrentPage(currentPage + 1)}
-            className="p-2 border rounded shadow text-gray-600 hover:bg-gray-200"
-          >
-            {"Next >"}
-          </button>
-        </div>
-      </div>
-    </div>
+				<div className="flex justify-center space-x-2 my-6">
+					<button
+						disabled={currentPage <= 1}
+						onClick={() => setCurrentPage(currentPage - 1)}
+						className="p-2 border rounded shadow text-gray-600 hover:bg-gray-200"
+					>
+						{"< Prev"}
+					</button>
+					{Array.from({ length: pageCount }, (_, index) => (
+						<button
+							key={index}
+							onClick={() => setCurrentPage(index + 1)}
+							className={`p-2 border rounded shadow ${
+								currentPage === index + 1
+									? "bg-gray-300"
+									: "hover:bg-gray-200"
+							}`}
+						>
+							{index + 1}
+						</button>
+					))}
+					<button
+						disabled={currentPage >= pageCount}
+						onClick={() => setCurrentPage(currentPage + 1)}
+						className="p-2 border rounded shadow text-gray-600 hover:bg-gray-200"
+					>
+						{"Next >"}
+					</button>
+				</div>
+			</div>
+		</div>
   );
 }

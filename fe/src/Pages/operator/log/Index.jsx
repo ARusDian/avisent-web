@@ -5,8 +5,16 @@ export function OperatorLog() {
   const [currentPage, setCurrentPage] = useState(1);
 
   const fetchLogs = async () => {
+    const token = localStorage.getItem("token");
     try {
-      const response = await axios.get("http://localhost:8000/api/logs");
+      const response = await axios.get(
+        `http://localhost:8000/api/logs`, // Menggunakan id_turret sebagai ID dalam URL
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
       if (response.data && response.data.success) {
         setLogs(response.data.data);
       }
@@ -64,7 +72,11 @@ export function OperatorLog() {
                   {log.turret_id}
                 </td>
                 <td className="border border-[#697077] px-20 py-5">
-                  {log.image_id}
+                <img
+											src={log.image}
+											alt={`${log.image}`}
+											className="h-20 w-20 object-cover"
+										/>
                 </td>
                 <td className="border border-[#697077] px-20 py-5">
                   {log.location}

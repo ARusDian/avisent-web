@@ -65,17 +65,9 @@ export function NavbarAdmin() {
           className={({ isActive }) =>
             isActive ? "font-bold text-[#f8dbb3]" : undefined
           }
-          to={"/admin/specification"}
-        >
-          Spesification
-        </NavLink>
-        <NavLink
-          className={({ isActive }) =>
-            isActive ? "font-bold text-[#f8dbb3]" : undefined
-          }
           to={"/admin/log"}
         >
-          Log
+          Manual Log
         </NavLink>
         <NavLink
           className={({ isActive }) =>

@@ -1,6 +1,7 @@
 <?php
 
 use App\Models\User;
+use App\Models\Turret;
 use Laravel\Sanctum\Sanctum;
 
 it('can delete a turret', function () {
@@ -8,7 +9,9 @@ it('can delete a turret', function () {
 
     Sanctum::actingAs($operator);
 
-    $response = $this->delete(route('turrets.destroy', 4));
+    $id = Turret::orderBy('id_turret', 'desc')->first();
+
+    $response = $this->delete(route('turrets.destroy', $id->id_turret));
 
     $response->assertStatus(200)
     ->assertJsonStructure([
@@ -45,8 +48,10 @@ it('can send error when trying access non existing turret data id', function () 
 });
 
 it('can send error message when accessed without authentication', function () {
+    $id = Turret::orderBy('id_turret', 'desc')->first();
+
     $response = $this->withHeaders(['Accept' => 'application/json'])
-                     ->delete(route('turrets.destroy', 4));
+                     ->delete(route('turrets.destroy', $id->id_turret));
 
     $response->assertStatus(401)
     ->assertJsonStructure([

@@ -16,7 +16,9 @@ it('can create update user (with no pasword)', function () {
         'type' => 3,
     ];
 
-    $response = $this->post(route('users.update', 4), $userData);
+    $id = User::orderBy('id_user', 'desc')->first();
+
+    $response = $this->post(route('users.update', $id->id_user), $userData);
 
     $response->assertStatus(200)
     ->assertJsonStructure([
@@ -46,7 +48,9 @@ it('can create update user password', function () {
         'password' => Str::random(10),
     ];
 
-    $response = $this->postJson('api/users/password/4', $userData);
+    $id = User::orderBy('id_user', 'desc')->first();
+
+    $response = $this->postJson('api/users/password/' . $id->id_user, $userData);
 
     $response->assertStatus(200)
     ->assertJsonStructure([
@@ -72,7 +76,9 @@ it('can send error message when validation failed (wihtout password)', function 
         'type' => '',
     ];
 
-    $response = $this->post(route('users.update', 4), $userData);
+    $id = User::orderBy('id_user', 'desc')->first();
+
+    $response = $this->post(route('users.update', $id->id_user), $userData);
 
     $response->assertStatus(403)
     ->assertJsonStructure([
@@ -91,7 +97,9 @@ it('can send error message when validation failed (with password)', function () 
         'password' => '',
     ];
 
-    $response = $this->postJson('api/users/password/4', $userData);
+    $id = User::orderBy('id_user', 'desc')->first();
+
+    $response = $this->postJson('api/users/password/' . $id->id_user, $userData);
 
     $response->assertStatus(403)
     ->assertJsonStructure([
@@ -148,8 +156,10 @@ it('can send error message when accessed without authentication (with password)'
         'password' => '12345678',
     ];
 
+    $id = User::orderBy('id_user', 'desc')->first();
+
     $response = $this->withHeaders(['Accept' => 'application/json'])
-                     ->post(route('users.update', 4), $userData);
+                     ->post(route('users.update', $id->id_user), $userData);
 
     $response->assertStatus(401)
     ->assertJsonStructure([
@@ -164,8 +174,10 @@ it('can send error message when accessed without authentication (without passwor
         'password' => '12345678',
     ];
 
+    $id = User::orderBy('id_user', 'desc')->first();
+
     $response = $this->withHeaders(['Accept' => 'application/json'])
-                     ->postJson('api/users/password/4', $userData);
+                     ->postJson('api/users/password/' . $id->id_user, $userData);
 
     $response->assertStatus(401)
     ->assertJsonStructure([

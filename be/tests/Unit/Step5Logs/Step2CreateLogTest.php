@@ -1,5 +1,7 @@
 <?php
 
+use App\Models\Log;
+use App\Models\File;
 use Illuminate\Support\Str;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
@@ -40,6 +42,17 @@ it('can create a log', function () {
         'object_type' => $logData['object_type'],
         'shot_date' => $logData['shot_date'],
     ]);
+
+    $id = Log::orderby('id_log', 'desc')->first();
+    $latest = Log::find($id->id_log);
+
+    $file = File::findOrFail($latest->file->id_file);
+
+    Storage::delete('public/logs/' . basename($latest->file->path));
+
+    $latest->delete();
+    $file->delete();
+
 });
 
 it('can send error message when validation failed', function () {

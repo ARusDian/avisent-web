@@ -1,6 +1,7 @@
 <?php
 
 use App\Models\User;
+use App\Models\Turret;
 use Laravel\Sanctum\Sanctum;
 use Illuminate\Support\Str;
 use Illuminate\Http\UploadedFile;
@@ -23,7 +24,9 @@ it('can update turret data (with image)', function () {
         'location' => Str::random(10),
     ];
 
-    $response = $this->post(route('turrets.update', 4), $turretData);
+    $id = Turret::orderBy('id_turret', 'desc')->first();
+
+    $response = $this->post(route('turrets.update', $id->id_turret), $turretData);
 
     $response->assertStatus(200)
     ->assertJsonStructure([
@@ -65,7 +68,9 @@ it('can update turret data (without image)', function () {
         'location' => Str::random(10),
     ];
 
-    $response = $this->post(route('turrets.update', 4), $turretData);
+    $id = Turret::orderBy('id_turret', 'desc')->first();
+
+    $response = $this->post(route('turrets.update', $id->id_turret), $turretData);
 
     $response->assertStatus(200)
     ->assertJsonStructure([
@@ -108,7 +113,9 @@ it('can send error message when validation failed', function () {
         'location' => '',
     ];
 
-    $response = $this->post(route('turrets.update', 4), $turretData);
+    $id = Turret::orderBy('id_turret', 'desc')->first();
+
+    $response = $this->post(route('turrets.update', $id->id_turret), $turretData);
 
     $response->assertStatus(403)
     ->assertJsonStructure([
@@ -139,7 +146,7 @@ it('can send error when trying access non existing turret data id', function () 
     ]);
 });
 
-it('can send error message when accessed without authentication (without password)', function () {
+it('can send error message when accessed without authentication', function () {
     $turretData = [
         '_method' => 'PATCH',
         'description' => Str::random(10),
@@ -148,8 +155,10 @@ it('can send error message when accessed without authentication (without passwor
         'location' => Str::random(10),
     ];
 
+    $id = Turret::orderBy('id_turret', 'desc')->first();
+
     $response = $this->withHeaders(['Accept' => 'application/json'])
-                     ->post(route('turrets.update', 4), $turretData);
+                     ->post(route('turrets.update', $id->id_turret), $turretData);
 
     $response->assertStatus(401)
     ->assertJsonStructure([

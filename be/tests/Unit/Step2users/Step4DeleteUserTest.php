@@ -8,7 +8,9 @@ it('can delete a user', function () {
 
     Sanctum::actingAs($admin);
 
-    $response = $this->delete(route('users.destroy', 4));
+    $id = User::orderBy('id_user', 'desc')->first();
+
+    $response = $this->delete(route('users.destroy', $id->id_user));
 
     $response->assertStatus(200)
     ->assertJsonStructure([
@@ -38,8 +40,10 @@ it('can send error when trying delete non existing user data id', function () {
 });
 
 it('can send error message when accessed without authentication', function () {
+    $id = User::orderBy('id_user', 'desc')->first();
+
     $response = $this->withHeaders(['Accept' => 'application/json'])
-                     ->delete(route('turrets.destroy', 4));
+                     ->delete(route('turrets.destroy', $id->id_user));
 
     $response->assertStatus(401)
     ->assertJsonStructure([

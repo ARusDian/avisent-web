@@ -1,6 +1,8 @@
 <?php
 
 use App\Models\User;
+use App\Models\ManualLog;
+use App\Models\File;
 use Laravel\Sanctum\Sanctum;
 
 it('can create a manual logs', function () {
@@ -36,6 +38,11 @@ it('can create a manual logs', function () {
         'start_date' => $mlogsData['start_date'],
         'end_date' => $mlogsData['end_date'],
     ]);
+
+    $id = ManualLog::orderby('id_manual_log', 'desc')->first();
+    $latest = ManualLog::find($id->id_manual_log);
+
+    $latest->delete();
 });
 
 it('can send error message when validation failed', function () {
